@@ -13,8 +13,8 @@ class SkautisExtension22 extends Nette\DI\CompilerExtension {
 
     public function loadConfiguration() {
         $container = $this->getContainerBuilder();
-        $config = $this->getConfig(array("applicationId"=>NULL, "testMode"=>NULL, "profiler"=>true));
-        
+        $config = $this->getConfig(array("applicationId" => NULL, "testMode" => NULL, "profiler" => true));
+
         $skautisService = $container->addDefinition("skautis")
                 ->setFactory('SkautIS\SkautIS::getInstance', array($config['applicationId'], $config['testMode'], $config['profiler']));
 
