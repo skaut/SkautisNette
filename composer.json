@@ -17,7 +17,7 @@
     },
     "require": {
         "php": ">=5.3.0",
-        "skautis/skautis": "2.*",
+        "skautis/skautis": "2.*@dev",
         "nette/nette": ">=2.2"
     },
     "require-dev": {
@@ -25,8 +25,8 @@
         "mockery/mockery": "0.8.*"
     },
     "autoload": {
-        "psr-0": {
-            "SkautisExtension22": "src/Skautis/Nette/"
+        "psr-4": {
+            "SkautIS\\Nette\\": "src/"
         }
     }
 }
