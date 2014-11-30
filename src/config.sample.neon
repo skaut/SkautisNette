@@ -1,5 +1,5 @@
 extensions:
-    skautis: SkautIS\Nette\SkautisExtension22 # yourNameOfExtension : SkautIS\Nette\SkautisExtension22
+    skautis: Skautis\Nette\SkautisExtension22 # yourNameOfExtension : SkautIS\Nette\SkautisExtension22
 
 skautis:
     applicationId : abcd-...-abcd #ID_Aplication assigned by skautis administrator

@@ -1,6 +1,6 @@
 <?php
 
-namespace SkautIS\Nette\Tracy;
+namespace Skautis\Nette\Tracy;
 
 use Tracy,
     Tracy\Debugger;
@@ -25,7 +25,7 @@ class Panel extends \Nette\Object implements Tracy\IBarPanel {
      * After event notification.
      * @return void
      */
-    public function logEvent(\SkautIS\Nette\SkautisQuery $query) {
+    public function logEvent(\Skautis\Nette\SkautisQuery $query) {
         $this->queries[] = $query;
     }
 
