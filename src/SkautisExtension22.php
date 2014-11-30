@@ -26,11 +26,8 @@ class SkautisExtension22 extends Nette\DI\CompilerExtension {
     }
 
     public function afterCompile(Nette\PhpGenerator\ClassType $class) {
-//        $container = $this->getContainerBuilder();
-//        $config = $this->getConfig($this->defaults);
-        // metoda initialize
         $initialize = $class->methods['initialize'];
-        $initialize->addBody('$storage = $this->session->getSection("__SkautisExtension__");$this->skautis->setStorage($storage, TRUE);');
+        $initialize->addBody('$this->getService("skautis")->setAdapter(new \Skautis\Nette\SessionAdapter($this->getService("session")));');
     }
 
 }
