@@ -17,7 +17,7 @@
     },
     "require": {
         "php": ">=5.3.0",
-        "skautis/skautis": ">=2",
+        "skautis/skautis": "2.*@dev",
         "nette/nette": ">=2.2"
     },
     "require-dev": {
