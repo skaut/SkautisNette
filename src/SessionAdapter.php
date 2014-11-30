@@ -1,8 +1,8 @@
 <?php
 
-namespace SkautIS\Nette;
+namespace Skautis\Nette;
 
-use SkautIS\SessionAdapter\AdapterInterface;
+use Skautis\SessionAdapter\AdapterInterface;
 use Nette\Http\Session;
 
 /**
