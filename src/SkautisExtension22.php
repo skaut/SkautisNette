@@ -1,6 +1,6 @@
 <?php
 
-namespace SkautIS\Nette;
+namespace Skautis\Nette;
 
 use Nette;
 
@@ -16,11 +16,11 @@ class SkautisExtension22 extends Nette\DI\CompilerExtension {
         $config = $this->getConfig(array("applicationId" => NULL, "testMode" => NULL, "profiler" => true));
 
         $skautisService = $container->addDefinition("skautis")
-                ->setFactory('SkautIS\SkautIS::getInstance', array($config['applicationId'], $config['testMode'], $config['profiler']));
+                ->setFactory('Skautis\Skautis::getInstance', array($config['applicationId'], $config['testMode'], $config['profiler']));
 
         if (class_exists('Tracy\Debugger') && $container->parameters['debugMode'] && $config['profiler'] != false) {
             $panel = $container->addDefinition($this->prefix('panel'))
-                    ->setClass('SkautIS\Nette\Tracy\Panel');
+                    ->setClass('Skautis\Nette\Tracy\Panel');
             $skautisService->addSetup(array($panel, 'register'), array($skautisService));
         }
     }

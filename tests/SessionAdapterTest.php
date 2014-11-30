@@ -1,8 +1,8 @@
 <?php
 
-namespace Test\SkautIS\Nette;
+namespace Test\Skautis\Nette;
 
-use SkautIS\Nette\SessionAdapter as NetteAdapter;
+use Skautis\Nette\SessionAdapter as NetteAdapter;
 use Nette\Http\UrlScript;
 use Nette\Http\Response;
 use Nette\Http\Request;

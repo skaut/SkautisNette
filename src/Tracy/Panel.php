@@ -1,6 +1,6 @@
 <?php
 
-namespace SkautIS\Nette\Tracy;
+namespace Skautis\Nette\Tracy;
 
 use Tracy,
     Tracy\Debugger;
@@ -15,6 +15,11 @@ class Panel extends \Nette\Object implements Tracy\IBarPanel {
     /** @var array */
     private $queries = array();
 
+    /**
+     * Zaregistruje callback ktery Skautis predava WS, pomoci ktereho WS predava debug informace
+     *
+     * @param \Skautis\Skautis $connection
+     */
     public function register($connection) {
         Tracy\Debugger::getBar()->addPanel($this);
         //Tracy\Debugger::getBlueScreen()->addPanel(array(__CLASS__, 'renderException'));
@@ -25,7 +30,7 @@ class Panel extends \Nette\Object implements Tracy\IBarPanel {
      * After event notification.
      * @return void
      */
-    public function logEvent(\SkautIS\Nette\SkautisQuery $query) {
+    public function logEvent(\Skautis\SkautisQuery $query) {
         $this->queries[] = $query;
     }
 
