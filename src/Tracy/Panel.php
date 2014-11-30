@@ -1,6 +1,6 @@
 <?php
 
-namespace SkautIS\Nette\Tracy;
+namespace Skautis\Nette\Tracy;
 
 use Tracy,
     Tracy\Debugger;

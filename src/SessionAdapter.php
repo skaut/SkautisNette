@@ -6,7 +6,7 @@ use Skautis\SessionAdapter\AdapterInterface;
 use Nette\Http\Session;
 
 /**
- * Adapter pro pouziti Nette Session ve SkautISu
+ * Adapter pro pouziti Nette Session ve Skautisu
  */
 class SessionAdapter implements AdapterInterface
 {
