@@ -2,8 +2,10 @@
 
 namespace Skautis\Nette\Tracy;
 
-use Tracy,
-    Tracy\Debugger;
+use Skautis\Wsdl\WebService;
+use Skautis\Wsdl\WsdlManager;
+use Tracy;
+use Tracy\Debugger;
 
 /**
  * Skautis panel for Tracy.
@@ -15,15 +17,16 @@ class Panel extends \Nette\Object implements Tracy\IBarPanel {
     /** @var array */
     private $queries = array();
 
+
     /**
      * Zaregistruje callback ktery Skautis predava WS, pomoci ktereho WS predava debug informace
      *
      * @param \Skautis\Skautis $connection
      */
-    public function register($connection) {
+    public function register(WsdlManager $wsdlManager) {
+		$wsdlManager->addWebServiceListener(WebService::EVENT_SUCCESS, array($this, 'logEvent'));
+		$wsdlManager->addWebServiceListener(WebService::EVENT_FAILURE, array($this, 'logEvent'));
         Tracy\Debugger::getBar()->addPanel($this);
-        //Tracy\Debugger::getBlueScreen()->addPanel(array(__CLASS__, 'renderException'));
-        $connection->onEvent[] = array($this, 'logEvent');
     }
 
     /**
@@ -34,18 +37,6 @@ class Panel extends \Nette\Object implements Tracy\IBarPanel {
         $this->queries[] = $query;
     }
 
-//    /**
-//     * Returns blue-screen custom tab.
-//     * @return mixed
-//     */
-//    public static function renderException($e) {
-//        if ($e instanceof \DibiException && $e->getSql()) {
-//            return array(
-//                'tab' => 'SQL',
-//                'panel' => dibi::dump($e->getSql(), TRUE),
-//            );
-//        }
-//    }
 
     /**
      * Returns HTML code for custom tab. (Tracy\IBarPanel)
