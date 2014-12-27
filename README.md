@@ -8,7 +8,7 @@ Nainstalujte balíček přes composer ``composer require skautis/nette:2.0.*`` a
 
 ```
 extensions:
-    skautis: SkautIS\Nette\SkautisExtension22 # yourNameOfExtension : SkautIS\Nette\SkautisExtension22
+    skautis: SkautIS\Nette\SkautisExtension # yourNameOfExtension : SkautIS\Nette\SkautisExtension
 
 skautis:
     applicationId : abcd-...-abcd #ID_Aplication assigned by skautis administrator

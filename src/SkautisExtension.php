@@ -6,12 +6,12 @@ use Nette;
 
 
 /**
- * Skautis extension for Nette Framework 2.2
+ * Skautis extension for Nette Framework
  *
  * @author Hána František
  * @author Petr Morávek
  */
-class SkautisExtension22 extends Nette\DI\CompilerExtension
+class SkautisExtension extends Nette\DI\CompilerExtension
 {
 
 	public $defaults = array(
@@ -47,11 +47,11 @@ class SkautisExtension22 extends Nette\DI\CompilerExtension
 		$container->addDefinition($this->prefix('skautis'))
 			->setClass('Skautis\Skautis');
 
-        if ($config['profiler'] && class_exists('Tracy\Debugger')) {
+		if ($config['profiler'] && (class_exists('Tracy\Debugger') || class_exists('Nette\Diagnostics\Debugger'))) {
 			$panel = $container->addDefinition($this->prefix('panel'))
 				->setClass('Skautis\Nette\Tracy\Panel');
 			$manager->addSetup(array($panel, 'register'), array($manager));
-        }
+		}
 	}
 
 
