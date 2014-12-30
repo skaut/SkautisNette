@@ -5,6 +5,7 @@
     "homepage": "https://github.com/skaut/SkautisNette",
     "type": "library",
     "keywords": ["skautis", "api", "nette"],
+    "license": ["BSD-3-Clause"],
     "authors": [
         {
             "name": "František Hána",
