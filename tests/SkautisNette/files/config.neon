@@ -1,0 +1,6 @@
+extensions:
+	skautis: Skautis\Nette\SkautisExtension
+
+skautis:
+	applicationId: test
+	profiler: true
