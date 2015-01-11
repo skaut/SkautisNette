@@ -124,7 +124,7 @@ class Panel extends Nette\Object implements Tracy\IBarPanel
 		$s = "";
 		$cnt = 0;
 		foreach ($trace as $f) {
-			$s .= "" . ++$cnt . ". " . $f['function'] . " (" . $f['class'] . (array_key_exists("line", $f) ? ":" . $f['line'] : "") . ")" . '<br>';
+			$s .= "" . ++$cnt . ". " . $f['function'] . " (" . (array_key_exists("class", $f) ? ":" . $f['class'] : "") . (array_key_exists("line", $f) ? ":" . $f['line'] : "") . ")" . '<br>';
 		}
 		return $this->formatToggle('Trace') . "<div class='{$this->htmlPrefix}-collapsed'>" . $s . "</div>";
 	}
