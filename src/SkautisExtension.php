@@ -3,6 +3,7 @@
 namespace Skautis\Nette;
 
 use Nette;
+use Nette\DI\Config;
 
 
 /**
@@ -14,6 +15,7 @@ use Nette;
 class SkautisExtension extends Nette\DI\CompilerExtension
 {
 
+	/** @var array */
 	public $defaults = array(
 		'applicationId' => NULL,
 		'testMode' => FALSE,
@@ -26,8 +28,7 @@ class SkautisExtension extends Nette\DI\CompilerExtension
 	public function loadConfiguration()
 	{
 		$container = $this->getContainerBuilder();
-		$config = $this->getConfig($this->defaults);
-		$this->validateConfig($this->defaults, $config);
+		$config = $this->validateConfig($this->defaults);
 
 		$container->addDefinition($this->prefix('config'))
 			->setClass('Skautis\Config', array($config['applicationId'], $config['testMode'], $config['cache'], $config['compression']));
@@ -56,19 +57,40 @@ class SkautisExtension extends Nette\DI\CompilerExtension
 
 
 	/**
-	 * Checks whether $config contains only $expected items.
+	 * BC with nette/di <2.3
+	 * @param string $name
+	 * @param array $args
+	 * @return mixed
+	 */
+	public function __call($name, $args)
+	{
+		if ($name === 'validateConfig') {
+			return call_user_func_array(array($this, '_validateConfig'), $args);
+		}
+		return parent::__call($name, $args);
+	}
+
+
+	/**
+	 * Checks whether $config contains only $expected items and returns combined array.
+	 * BC with nette/di <2.3
 	 * @param array $expected configuration keys
 	 * @param array|NULL $config to validate
 	 * @param string|NULL $name configuration section name
+	 * @return array
 	 * @throws Nette\InvalidStateException
 	 */
-	protected function validateConfig(array $expected, array $config = NULL, $name = NULL)
+	private function _validateConfig(array $expected, array $config = NULL, $name = NULL)
 	{
-		if ($extra = array_diff_key(func_num_args() > 1 ? (array) $config : $this->config, $expected)) {
+		if (func_num_args() === 1) {
+			$config = $this->config;
+		}
+		if ($extra = array_diff_key((array) $config, $expected)) {
 			$name = $name ?: $this->name;
 			$extra = implode(", $name.", array_keys($extra));
 			throw new Nette\InvalidStateException("Unknown configuration option $name.$extra.");
 		}
+		return Config\Helpers::merge($config, $expected);
 	}
 
 }
