@@ -3,6 +3,7 @@ language: php
 env:
     - NETTE=2.1
     - NETTE=2.2
+    - NETTE=2.3
     - NETTE=master
 
 php:
