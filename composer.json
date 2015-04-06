@@ -45,7 +45,8 @@
 		"tracy/tracy": "~2.1@dev"
 	},
     "suggest": {
-        "tracy/tracy": "to enable skautis panel for Tracy debug bar."
+        "tracy/tracy": "to enable skautis panel for Tracy debug bar.",
+        "nette/caching": "to use Nette caching backend in CacheDecorator."
     },
 	"autoload": {
 		"psr-4": {

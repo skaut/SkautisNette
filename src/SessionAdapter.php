@@ -2,7 +2,7 @@
 
 namespace Skautis\Nette;
 
-Use Nette;
+use Nette;
 use Skautis\SessionAdapter\AdapterInterface;
 
 
@@ -24,6 +24,7 @@ class SessionAdapter implements AdapterInterface
 		$this->sessionSection = $session->getSection(__CLASS__);
 	}
 
+
 	/**
 	 * @inheritdoc
 	 */
@@ -31,6 +32,7 @@ class SessionAdapter implements AdapterInterface
 	{
 		$this->sessionSection->$name = $object;
 	}
+
 
 	/**
 	 * @inheritdoc

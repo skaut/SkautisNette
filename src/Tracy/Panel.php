@@ -129,6 +129,7 @@ class Panel extends Nette\Object implements Tracy\IBarPanel
 		return $this->formatToggle('Trace') . "<div class='{$this->htmlPrefix}-collapsed'>" . $s . "</div>";
 	}
 
+
 	/**
 	 * @param mixed $object
 	 * @return string
@@ -137,6 +138,7 @@ class Panel extends Nette\Object implements Tracy\IBarPanel
 	{
 		return call_user_func(array($this->debuggerClass, 'dump'), $object, TRUE);
 	}
+
 
 	/**
 	 * @param string $name text to display in toggle link
