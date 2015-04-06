@@ -44,6 +44,9 @@
 		"latte/latte": "~2.1@dev",
 		"tracy/tracy": "~2.1@dev"
 	},
+    "suggest": {
+        "tracy/tracy": "to enable skautis panel for Tracy debug bar."
+    },
 	"autoload": {
 		"psr-4": {
 			"Skautis\\Nette\\": "src/"
