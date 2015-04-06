@@ -1,31 +1,32 @@
+[![Latest Stable Version](https://poser.pugx.org/skautis/nette/v/stable.svg)](https://packagist.org/packages/skautis/nette) [![Total Downloads](https://poser.pugx.org/skautis/nette/downloads.svg)](https://packagist.org/packages/skautis/nette) [![Latest Unstable Version](https://poser.pugx.org/skautis/nette/v/unstable.svg)](https://packagist.org/packages/skautis/nette) [![License](https://poser.pugx.org/skautis/nette/license.svg)](https://packagist.org/packages/skautis/nette)
+
 SkautisNette
-=======
+============
 
-Rozšíření do [Nette](https://github.com/nette/nette) o [PHP knihovnu pro připojení ke Skautisu](https://github.com/skaut/skautis).
+Rozšíření pro [Nette](https://github.com/nette/nette) integrující [PHP knihovnu pro připojení ke SkautISu](https://github.com/skaut/Skautis).
 
-# Jak rozšíření připojit?
-Nainstalujte balíček přes composer ``composer require skautis/nette:2.0.*`` a pak už jen stačí zaregistrovat rozšíření(extension) v konfiguračním souboru a nastavit ho.
 
+# Požadavky
+
+[Nette Framework](https://github.com/nette/nette) verze 2.1 nebo vyšší. Detaily v [composer.json](./composer.json).
+
+
+# Instalace
+
+Nainstalujte balíček přes composer ``composer require skautis/nette:2.0.*``, zaregistrujte a nastavte rozšíření (extension) v konfiguračním souboru.
+
+Ukázka minimální konfigurace:
 ```
 extensions:
-    skautis: SkautIS\Nette\SkautisExtension # yourNameOfExtension : SkautIS\Nette\SkautisExtension
+    skautis: Skautis\Nette\SkautisExtension
 
 skautis:
-    applicationId : abcd-...-abcd #ID_Aplication assigned by skautis administrator
-    testMode : true #using http://test-is.skaut.cz/
-    profiler: true
+    applicationId : abcd-...-abcd # AppId přidělené administrátorem skautISu
 ```
-Ukázkový konfigurační soubor najdete v adresáři repozitáže [src/SkautIS/Nette/config.sample.neon](https://github.com/sinacek/SkautIS/blob/master/src/SkautIS/Nette/config.sample.neon).
 
-Po registraci rozšíření se v testovacím modu Nette automaticky aktivuje skautis panel, který sleduje všechny dotazy na skautis.
 
-![Skautis panel pro ladění aplikace](skautis-panel.png)
+# Návod na použití
 
-Všechny informace o práci s knihovnou najdete na [https://github.com/skaut/skautis](https://github.com/skaut/skautis)
+Podrobný přehled použití tohoto rozšíření v [dokumentaci](docs/README.md).
 
-##Co to je composer?
-Composer je balíčkovací systém usnadňující práci s knihovnami, Detailnější informace najdete na [http://getcomposer.org/doc](http://getcomposer.org/doc/)
-
-* stáhněte composer z [http://getcomposer.com](http://getcomposer.com)
-* pomocí konzole spusťte příkaz ``composer require skautis/nette:2.0.*``
-* pomocí konzole nainstalujte závislosti ``composer install``
+Dokumentaci samotné knihovny najdete na [https://github.com/skaut/Skautis](https://github.com/skaut/Skautis).
