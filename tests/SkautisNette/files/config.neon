@@ -3,4 +3,3 @@ extensions:
 
 skautis:
 	applicationId: test
-	profiler: true

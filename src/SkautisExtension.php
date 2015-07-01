@@ -19,7 +19,7 @@ class SkautisExtension extends Nette\DI\CompilerExtension
 	public $defaults = array(
 		'applicationId' => NULL,
 		'testMode' => FALSE,
-		'profiler' => '%debugMode%',
+		'profiler' => NULL,
 		'cache' => TRUE,
 		'compression' => TRUE,
 	);
@@ -29,6 +29,7 @@ class SkautisExtension extends Nette\DI\CompilerExtension
 	{
 		$container = $this->getContainerBuilder();
 		$config = $this->validateConfig($this->defaults);
+		$config['profiler'] = isset($config['profiler']) ? $config['profiler'] : !empty($container->parameters['debugMode']);
 
 		$container->addDefinition($this->prefix('config'))
 			->setClass('Skautis\Config', array($config['applicationId'], $config['testMode'], $config['cache'], $config['compression']));
