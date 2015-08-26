@@ -1,5 +1,8 @@
 language: php
 
+## Run on container environment
+sudo: false
+
 env:
     - NETTE=2.1
     - NETTE=2.2
@@ -30,3 +33,7 @@ script:
 
 after_failure:
     - for i in $(find tests -name \*.actual); do echo "--- $i"; cat $i; echo; echo; done
+
+cache:
+  directories:
+    - $HOME/.composer/cache
