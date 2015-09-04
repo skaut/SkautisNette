@@ -1,5 +1,8 @@
 language: php
 
+## Run on container environment
+sudo: false
+
 env:
     - NETTE=2.1
     - NETTE=2.2
@@ -23,10 +26,14 @@ before_install:
     - php tests/prepare-composer.php
 
 install:
-    - composer install --no-interaction --prefer-source
+    - composer install --no-interaction --prefer-dist
 
 script:
     - vendor/bin/tester tests -s -c tests/php-unix.ini -p php
 
 after_failure:
     - for i in $(find tests -name \*.actual); do echo "--- $i"; cat $i; echo; echo; done
+
+cache:
+  directories:
+    - $HOME/.composer/cache
