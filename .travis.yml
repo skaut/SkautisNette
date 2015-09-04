@@ -26,7 +26,7 @@ before_install:
     - php tests/prepare-composer.php
 
 install:
-    - composer install --no-interaction --prefer-source
+    - composer install --no-interaction --prefer-dist
 
 script:
     - vendor/bin/tester tests -s -c tests/php-unix.ini -p php
