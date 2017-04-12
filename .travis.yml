@@ -7,6 +7,7 @@ env:
     - NETTE=2.1
     - NETTE=2.2
     - NETTE=2.3
+    - NETTE=2.4
     - NETTE=master
 
 php:
@@ -14,12 +15,17 @@ php:
     - 5.5
     - 5.6
     - 7.0
+    - 7.1
     - hhvm
 
 matrix:
+    exclude:
+        - php: 5.4
+          env: NETTE=2.4
+        - php: 5.5
+          env: NETTE=2.4
     allow_failures:
         - php: hhvm
-        - php: 7.0
 
 before_install:
     - composer self-update
