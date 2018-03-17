@@ -12,6 +12,7 @@ use Skautis\Nette\SessionAdapter;
 use Skautis\User;
 use Skautis\Skautis;
 use Skautis\Nette\Tracy\Panel;
+use Tracy\Debugger;
 
 
 /**
@@ -37,7 +38,7 @@ class SkautisExtension extends Nette\DI\CompilerExtension
 	{
 		$container = $this->getContainerBuilder();
 		$config = $this->validateConfig($this->defaults);
-		$config['profiler'] = isset($config['profiler']) ? $config['profiler'] : !empty($container->parameters['debugMode']);
+		$config['profiler'] = $config['profiler'] ?? !empty($container->parameters['debugMode']);
 
 		$container->addDefinition($this->prefix('config'))
 			->setFactory(\Skautis\Config::class, array($config['applicationId'], $config['testMode'], $config['cache'], $config['compression']));
@@ -57,7 +58,7 @@ class SkautisExtension extends Nette\DI\CompilerExtension
 		$container->addDefinition($this->prefix('skautis'))
 			->setType(Skautis::class);
 
-		if ($config['profiler'] && (class_exists('Tracy\Debugger') || class_exists('Nette\Diagnostics\Debugger'))) {
+		if ($config['profiler'] && (class_exists(Debugger::class) || class_exists('Nette\Diagnostics\Debugger'))) {
 			$panel = $container->addDefinition($this->prefix('panel'))
 				->setType(Panel::class);
 			$manager->addSetup(array($panel, 'register'), array($manager));
@@ -71,7 +72,7 @@ class SkautisExtension extends Nette\DI\CompilerExtension
 	 * @param array $args
 	 * @return mixed
 	 */
-	public function __call($name, $args)
+	public function __call(string $name, array $args)
 	{
 		if ($name === 'validateConfig') {
 			return call_user_func_array(array($this, '_validateConfig'), $args);

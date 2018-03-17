@@ -9,6 +9,7 @@ use Skautis\SkautisQuery;
 use Skautis\Wsdl\WebService;
 use Skautis\Wsdl\WsdlManager;
 use Tracy;
+use Tracy\Debugger;
 
 
 /**
@@ -32,12 +33,12 @@ class Panel implements Tracy\IBarPanel
 
 	public function __construct()
 	{
-		if (!class_exists('Tracy\Debugger') && class_exists('Nette\Diagnostics\Debugger')) {
+		if (!class_exists(Debugger::class) && class_exists('Nette\Diagnostics\Debugger')) {
 			$this->htmlPrefix = 'nette';
 			$this->debuggerClass = 'Nette\Diagnostics\Debugger';
 		} else {
 			$this->htmlPrefix = 'tracy';
-			$this->debuggerClass = 'Tracy\Debugger';
+			$this->debuggerClass = Debugger::class;
 		}
 	}
 
