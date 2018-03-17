@@ -1,38 +1,38 @@
 {
-  "name": "skautis/nette",
-  "type": "library",
-  "description": "Nette extension for Skautis library",
-  "keywords": ["skautis", "api", "nette"],
-  "homepage": "https://github.com/skaut/SkautisNette",
-  "license": ["BSD-3-Clause"],
-  "authors": [
-    {
-      "name": "František Hána",
-      "homepage": "http://sinacek.cz"
-    }
-  ],
-  "support": {
-    "wiki": "http://is.skaut.cz/napoveda/",
-    "source": "https://github.com/skaut/SkautisNette"
-  },
-  "require": {
-    "php": ">=7.1",
-    "skautis/skautis": "^2.0",
-    "nette/di": "^3.0@dev",
-    "nette/http": "^3.0@dev"
-  },
-  "require-dev": {
-    "nette/nette": "^3.0@dev",
+	"name": "skautis/nette",
+	"type": "library",
+	"description": "Nette extension for Skautis library",
+	"keywords": ["skautis", "api", "nette"],
+	"homepage": "https://github.com/skaut/SkautisNette",
+	"license": ["BSD-3-Clause"],
+	"authors": [
+		{
+			"name": "František Hána",
+			"homepage": "http://sinacek.cz"
+		}
+	],
+	"support": {
+		"wiki": "http://is.skaut.cz/napoveda/",
+		"source": "https://github.com/skaut/SkautisNette"
+	},
+	"require": {
+		"php": ">=7.1",
+		"skautis/skautis": "^2.0",
+		"nette/di": "^3.0@dev",
+		"nette/http": "^3.0@dev"
+	},
+	"require-dev": {
+		"nette/nette": "^3.0@dev",
     "nette/tester": "^2.0"
-  },
-  "suggest": {
-    "tracy/tracy": "to enable skautis panel for Tracy debug bar.",
-    "nette/caching": "to use Nette caching backend in CacheDecorator."
-  },
-  "autoload": {
-    "psr-4": {
-      "Skautis\\Nette\\": "src/"
-    }
-  },
-  "minimum-stability": "dev"
+	},
+    "suggest": {
+        "tracy/tracy": "to enable skautis panel for Tracy debug bar.",
+        "nette/caching": "to use Nette caching backend in CacheDecorator."
+    },
+	"autoload": {
+		"psr-4": {
+			"Skautis\\Nette\\": "src/"
+		}
+	},
+	"minimum-stability": "dev"
 }
