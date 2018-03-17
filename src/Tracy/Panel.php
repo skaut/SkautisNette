@@ -20,8 +20,9 @@ if (!interface_exists('Tracy\IBarPanel') && interface_exists('Nette\Diagnostics\
  *
  * @author Hána František
  */
-class Panel extends Nette\Object implements Tracy\IBarPanel
+class Panel implements Tracy\IBarPanel
 {
+	use Nette\SmartObject;
 
 	/** @var string */
 	private $htmlPrefix;
