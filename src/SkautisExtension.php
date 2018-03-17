@@ -1,9 +1,17 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Skautis\Nette;
 
 use Nette;
 use Nette\DI\Config;
+use Skautis\Wsdl\WebServiceFactory;
+use Skautis\Wsdl\WsdlManager;
+use Skautis\Nette\SessionAdapter;
+use Skautis\User;
+use Skautis\Skautis;
+use Skautis\Nette\Tracy\Panel;
 
 
 /**
@@ -32,26 +40,26 @@ class SkautisExtension extends Nette\DI\CompilerExtension
 		$config['profiler'] = isset($config['profiler']) ? $config['profiler'] : !empty($container->parameters['debugMode']);
 
 		$container->addDefinition($this->prefix('config'))
-			->setClass('Skautis\Config', array($config['applicationId'], $config['testMode'], $config['cache'], $config['compression']));
+			->setFactory(\Skautis\Config::class, array($config['applicationId'], $config['testMode'], $config['cache'], $config['compression']));
 
 		$container->addDefinition($this->prefix('webServiceFactory'))
-			->setClass('Skautis\Wsdl\WebServiceFactory');
+			->setType(WebServiceFactory::class);
 
 		$manager = $container->addDefinition($this->prefix('wsdlManager'))
-			->setClass('Skautis\Wsdl\WsdlManager');
+			->setType(WsdlManager::class);
 
 		$container->addDefinition($this->prefix('session'))
-			->setClass('Skautis\Nette\SessionAdapter');
+			->setType(SessionAdapter::class);
 
 		$container->addDefinition($this->prefix('user'))
-			->setClass('Skautis\User');
+			->setType(User::class);
 
 		$container->addDefinition($this->prefix('skautis'))
-			->setClass('Skautis\Skautis');
+			->setType(Skautis::class);
 
 		if ($config['profiler'] && (class_exists('Tracy\Debugger') || class_exists('Nette\Diagnostics\Debugger'))) {
 			$panel = $container->addDefinition($this->prefix('panel'))
-				->setClass('Skautis\Nette\Tracy\Panel');
+				->setType(Panel::class);
 			$manager->addSetup(array($panel, 'register'), array($manager));
 		}
 	}

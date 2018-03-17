@@ -1,17 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Skautis\Nette;
 
 use Nette;
 use Nette\Caching\Cache;
 use Nette\Caching\IStorage;
 use Skautis\Wsdl\Decorator\Cache\CacheInterface;
-
-
-if (!class_exists('Nette\Utils\DateTime') && class_exists('Nette\DateTime')) {
-	// BC with Nette 2.1
-	class_alias('Nette\DateTime', 'Nette\Utils\DateTime');
-}
 
 
 /**
