@@ -33,13 +33,8 @@ class Panel implements Tracy\IBarPanel
 
 	public function __construct()
 	{
-		if (!class_exists(Debugger::class) && class_exists('Nette\Diagnostics\Debugger')) {
-			$this->htmlPrefix = 'nette';
-			$this->debuggerClass = 'Nette\Diagnostics\Debugger';
-		} else {
 			$this->htmlPrefix = 'tracy';
 			$this->debuggerClass = Debugger::class;
-		}
 	}
 
 
