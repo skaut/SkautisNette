@@ -4,22 +4,18 @@ language: php
 sudo: false
 
 env:
-    - NETTE=2.4
+    - NETTE=3.0
     - NETTE=master
 
 php:
-    - 5.6
-    - 7.0
     - 7.1
     - 7.2
     - nightly
-    - hhvm
 
 matrix:
     allow_failures:
         - php: 7.2
         - php: nightly
-        - php: hhvm
 
 before_install:
     - composer self-update

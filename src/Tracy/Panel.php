@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Skautis\Nette\Tracy;
 
 use Nette;
@@ -7,12 +9,7 @@ use Skautis\SkautisQuery;
 use Skautis\Wsdl\WebService;
 use Skautis\Wsdl\WsdlManager;
 use Tracy;
-
-
-if (!interface_exists('Tracy\IBarPanel') && interface_exists('Nette\Diagnostics\IBarPanel')) {
-	// BC with Nette 2.1
-	class_alias('Nette\Diagnostics\IBarPanel', 'Tracy\IBarPanel');
-}
+use Tracy\Debugger;
 
 
 /**
@@ -36,13 +33,8 @@ class Panel implements Tracy\IBarPanel
 
 	public function __construct()
 	{
-		if (!class_exists('Tracy\Debugger') && class_exists('Nette\Diagnostics\Debugger')) {
-			$this->htmlPrefix = 'nette';
-			$this->debuggerClass = 'Nette\Diagnostics\Debugger';
-		} else {
 			$this->htmlPrefix = 'tracy';
-			$this->debuggerClass = 'Tracy\Debugger';
-		}
+			$this->debuggerClass = Debugger::class;
 	}
 
 
