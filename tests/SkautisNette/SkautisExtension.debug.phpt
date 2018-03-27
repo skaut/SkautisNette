@@ -1,6 +1,8 @@
 <?php
 
 use Tester\Assert;
+use Skautis\Skautis;
+use Skautis\Nette\Tracy\Panel;
 
 
 require __DIR__ . '/../bootstrap.php';
@@ -13,6 +15,6 @@ $configurator->addConfig(__DIR__ . '/files/config.neon');
 $container = $configurator->createContainer();
 
 Assert::false($container->isCreated('skautis.panel'));
-Assert::type('Skautis\Skautis', $container->getService('skautis.skautis'));
+Assert::type(Skautis::class, $container->getService('skautis.skautis'));
 Assert::true($container->isCreated('skautis.panel'));
-Assert::type('Skautis\Nette\Tracy\Panel', $container->getService('skautis.panel'));
+Assert::type(Panel::class, $container->getService('skautis.panel'));

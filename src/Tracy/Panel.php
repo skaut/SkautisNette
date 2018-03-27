@@ -8,13 +8,6 @@ use Skautis\Wsdl\WebService;
 use Skautis\Wsdl\WsdlManager;
 use Tracy;
 
-
-if (!interface_exists('Tracy\IBarPanel') && interface_exists('Nette\Diagnostics\IBarPanel')) {
-	// BC with Nette 2.1
-	class_alias('Nette\Diagnostics\IBarPanel', 'Tracy\IBarPanel');
-}
-
-
 /**
  * Skautis panel for Tracy.
  *
@@ -25,25 +18,10 @@ class Panel implements Tracy\IBarPanel
 	use Nette\SmartObject;
 
 	/** @var string */
-	private $htmlPrefix;
-
-	/** @var string */
-	private $debuggerClass;
+	private $htmlPrefix = 'tracy';
 
 	/** @var array */
 	private $queries = array();
-
-
-	public function __construct()
-	{
-		if (!class_exists('Tracy\Debugger') && class_exists('Nette\Diagnostics\Debugger')) {
-			$this->htmlPrefix = 'nette';
-			$this->debuggerClass = 'Nette\Diagnostics\Debugger';
-		} else {
-			$this->htmlPrefix = 'tracy';
-			$this->debuggerClass = 'Tracy\Debugger';
-		}
-	}
 
 
 	/**
@@ -55,7 +33,7 @@ class Panel implements Tracy\IBarPanel
 	{
 		$wsdlManager->addWebServiceListener(WebService::EVENT_SUCCESS, array($this, 'logEvent'));
 		$wsdlManager->addWebServiceListener(WebService::EVENT_FAILURE, array($this, 'logEvent'));
-		call_user_func(array($this->debuggerClass, 'getBar'))->addPanel($this);
+		call_user_func([Tracy\Debugger::class, 'getBar'])->addPanel($this);
 	}
 
 
@@ -137,7 +115,7 @@ class Panel implements Tracy\IBarPanel
 	 */
 	protected function dump($object)
 	{
-		return call_user_func(array($this->debuggerClass, 'dump'), $object, TRUE);
+		return call_user_func([Tracy\Debugger::class, 'dump'], $object, TRUE);
 	}
 
 
