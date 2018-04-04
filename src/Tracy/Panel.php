@@ -33,7 +33,7 @@ class Panel implements Tracy\IBarPanel
 	{
 		$wsdlManager->addWebServiceListener(WebService::EVENT_SUCCESS, array($this, 'logEvent'));
 		$wsdlManager->addWebServiceListener(WebService::EVENT_FAILURE, array($this, 'logEvent'));
-		call_user_func([Tracy\Debugger::class, 'getBar'])->addPanel($this);
+		Tracy\Debugger::getBar()->addPanel($this);
 	}
 
 
@@ -115,7 +115,7 @@ class Panel implements Tracy\IBarPanel
 	 */
 	protected function dump($object)
 	{
-		return call_user_func([Tracy\Debugger::class, 'dump'], $object, TRUE);
+		return Tracy\Debugger::dump($object, TRUE);
 	}
 
 
