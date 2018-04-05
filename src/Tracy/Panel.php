@@ -15,6 +15,7 @@ use Tracy;
  */
 class Panel implements Tracy\IBarPanel
 {
+
 	use Nette\SmartObject;
 
 	/** @var array */
