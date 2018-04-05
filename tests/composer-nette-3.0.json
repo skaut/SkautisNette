@@ -19,11 +19,12 @@
 		"php": ">=7.1",
 		"skautis/skautis": "^2.0",
 		"nette/di": "^3.0@dev",
-		"nette/http": "^3.0@dev"
+		"nette/http": "^3.0@dev",
+		"nette/utils": "^3.0@dev"
 	},
 	"require-dev": {
 		"nette/nette": "^3.0@dev",
-    "nette/tester": "^2.0"
+		"nette/tester": "^2.0"
 	},
     "suggest": {
         "tracy/tracy": "to enable skautis panel for Tracy debug bar.",
