@@ -32,7 +32,7 @@ class CacheAdapter implements CacheInterface
 	 * @param IStorage $storage
 	 * @param string|null $namespace
 	 */
-	public function __construct(IStorage $storage, $namespace = NULL)
+	public function __construct(IStorage $storage, ?string $namespace = NULL)
 	{
 		$this->storage = $storage;
 		$this->namespace = $namespace . Cache::NAMESPACE_SEPARATOR;
@@ -43,7 +43,7 @@ class CacheAdapter implements CacheInterface
 	 * Returns cache storage.
 	 * @return IStorage
 	 */
-	public function getStorage()
+	public function getStorage(): IStorage
 	{
 		return $this->storage;
 	}
@@ -53,7 +53,7 @@ class CacheAdapter implements CacheInterface
 	 * Returns cache namespace.
 	 * @return string
 	 */
-	public function getNamespace()
+	public function getNamespace(): string
 	{
 		return (string) substr($this->namespace, 0, -1);
 	}
@@ -63,7 +63,7 @@ class CacheAdapter implements CacheInterface
 	 * @param \DateTime|int|string $expiration
 	 * @return self
 	 */
-	public function setExpiration($expiration)
+	public function setExpiration($expiration): self
 	{
 		$this->expiration = $expiration;
 		return $this;
@@ -97,7 +97,7 @@ class CacheAdapter implements CacheInterface
 	/**
 	 * @return array
 	 */
-	private function getDependencies()
+	private function getDependencies(): array
 	{
 		$dependencies = [];
 
@@ -115,7 +115,7 @@ class CacheAdapter implements CacheInterface
 	 * @param string $key
 	 * @return string
 	 */
-	protected function generateKey($key)
+	protected function generateKey(string $key): string
 	{
 		return $this->namespace . md5(is_scalar($key) ? $key : serialize($key));
 	}
@@ -124,7 +124,7 @@ class CacheAdapter implements CacheInterface
 	/**
 	 * Clears all cached items.
 	 */
-	public function clean()
+	public function clean(): void
 	{
 		$this->storage->clean([Cache::ALL => TRUE]);
 	}

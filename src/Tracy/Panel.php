@@ -31,7 +31,7 @@ class Panel implements Tracy\IBarPanel
 	 *
 	 * @param WsdlManager $wsdlManager
 	 */
-	public function register(WsdlManager $wsdlManager)
+	public function register(WsdlManager $wsdlManager): void
 	{
 		$wsdlManager->addWebServiceListener(WebService::EVENT_SUCCESS, [$this, 'logEvent']);
 		$wsdlManager->addWebServiceListener(WebService::EVENT_FAILURE, [$this, 'logEvent']);
@@ -43,7 +43,7 @@ class Panel implements Tracy\IBarPanel
 	 * Event logging
 	 * @param SkautisQuery $query
 	 */
-	public function logEvent(SkautisQuery $query)
+	public function logEvent(SkautisQuery $query): void
 	{
 		$this->queries[] = $query;
 	}
@@ -53,7 +53,7 @@ class Panel implements Tracy\IBarPanel
 	 * Returns HTML code for custom tab. (Tracy\IBarPanel)
 	 * @return string
 	 */
-	public function getTab()
+	public function getTab(): string
 	{
 		$totalTime = 0;
 		foreach ($this->queries as $query) {
@@ -70,7 +70,7 @@ class Panel implements Tracy\IBarPanel
 	 * Returns HTML code for custom panel. (Tracy\IBarPanel)
 	 * @return string
 	 */
-	public function getPanel()
+	public function getPanel(): string
 	{
 		$cnt = 0;
 		$s = "";
@@ -100,7 +100,7 @@ class Panel implements Tracy\IBarPanel
 	 * @param array $trace
 	 * @return string
 	 */
-	protected function prepareTrace(array $trace)
+	protected function prepareTrace(array $trace): string
 	{
 		$s = "";
 		$cnt = 0;
@@ -115,7 +115,7 @@ class Panel implements Tracy\IBarPanel
 	 * @param mixed $object
 	 * @return string
 	 */
-	protected function dump($object)
+	protected function dump($object): string
 	{
 		return Debugger::dump($object, TRUE);
 	}
@@ -126,7 +126,7 @@ class Panel implements Tracy\IBarPanel
 	 * @param string|NULL $rel id of toggleable element
 	 * @return string
 	 */
-	protected function formatToggle($name, $rel = NULL)
+	protected function formatToggle(string $name, $rel = NULL): string
 	{
 		return "<a href='#" . ($rel === NULL ? "" : "$rel' rel='#$rel") . "' class='tracy-toggle tracy-collapsed'>$name</a>";
 	}

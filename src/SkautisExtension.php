@@ -34,7 +34,7 @@ class SkautisExtension extends Nette\DI\CompilerExtension
 	];
 
 
-	public function loadConfiguration()
+	public function loadConfiguration(): void
 	{
 		$container = $this->getContainerBuilder();
 		$config = $this->validateConfig($this->defaults);
