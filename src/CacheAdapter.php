@@ -16,6 +16,8 @@ use Skautis\Wsdl\Decorator\Cache\CacheInterface;
 class CacheAdapter implements CacheInterface
 {
 
+	use Nette\SmartObject;
+
 	/** @var IStorage */
 	private $storage;
 

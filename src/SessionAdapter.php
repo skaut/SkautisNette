@@ -14,6 +14,8 @@ use Skautis\SessionAdapter\AdapterInterface;
 class SessionAdapter implements AdapterInterface
 {
 
+	use Nette\SmartObject;
+
 	/** @var Nette\Http\SessionSection */
 	protected $sessionSection;
 
