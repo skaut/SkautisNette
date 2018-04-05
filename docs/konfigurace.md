@@ -17,7 +17,7 @@ Pomocí volby `compression: FALSE` je možné vypnout kompresi při provádění
 
 ## Profiler
 
-Pokud máte nainstalovánou [Tracy](https://github.com/nette/tracy), nebo používáte Nette verze 2.1, tak se v testovacím modu Nette automaticky aktivuje skautis panel, který sleduje všechny dotazy na skautis.
+Pokud máte nainstalovánou [Tracy](https://github.com/nette/tracy), tak se v testovacím modu Nette automaticky aktivuje skautis panel, který sleduje všechny dotazy na skautis.
 
 ![Skautis panel pro ladění aplikace](skautis-panel.png)
 
