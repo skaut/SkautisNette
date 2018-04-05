@@ -3,7 +3,6 @@
 namespace Skautis\Nette;
 
 use Nette;
-use Nette\DI\Config;
 use Skautis;
 use Tracy\Debugger;
 

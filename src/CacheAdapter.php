@@ -8,12 +8,6 @@ use Nette\Caching\IStorage;
 use Skautis\Wsdl\Decorator\Cache\CacheInterface;
 
 
-if (!class_exists('Nette\Utils\DateTime') && class_exists('Nette\DateTime')) {
-	// BC with Nette 2.1
-	class_alias('Nette\DateTime', 'Nette\Utils\DateTime');
-}
-
-
 /**
  * Nette cache adapter for Skautis library
  */
