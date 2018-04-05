@@ -99,7 +99,7 @@ class CacheAdapter implements CacheInterface
 	 */
 	private function getDependencies()
 	{
-		$dependencies = array();
+		$dependencies = [];
 
 		if (isset($this->expiration)) {
 			$dependencies[Cache::EXPIRATION] = Nette\Utils\DateTime::from($this->expiration)->format('U') - time();
@@ -126,7 +126,7 @@ class CacheAdapter implements CacheInterface
 	 */
 	public function clean()
 	{
-		$this->storage->clean(array(Cache::ALL => TRUE));
+		$this->storage->clean([Cache::ALL => TRUE]);
 	}
 
 }

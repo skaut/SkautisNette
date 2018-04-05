@@ -23,7 +23,7 @@ class Panel implements Tracy\IBarPanel
 	use Nette\SmartObject;
 
 	/** @var array */
-	private $queries = array();
+	private $queries = [];
 
 
 	/**
@@ -33,8 +33,8 @@ class Panel implements Tracy\IBarPanel
 	 */
 	public function register(WsdlManager $wsdlManager)
 	{
-		$wsdlManager->addWebServiceListener(WebService::EVENT_SUCCESS, array($this, 'logEvent'));
-		$wsdlManager->addWebServiceListener(WebService::EVENT_FAILURE, array($this, 'logEvent'));
+		$wsdlManager->addWebServiceListener(WebService::EVENT_SUCCESS, [$this, 'logEvent']);
+		$wsdlManager->addWebServiceListener(WebService::EVENT_FAILURE, [$this, 'logEvent']);
 		Debugger::getBar()->addPanel($this);
 	}
 

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Skautis\Nette;
 
 use Nette;
-use Nette\DI\Config;
+use Skautis\Config;
 use Skautis\Wsdl\WebServiceFactory;
 use Skautis\Wsdl\WsdlManager;
 use Skautis\Nette\SessionAdapter;
@@ -25,13 +25,13 @@ class SkautisExtension extends Nette\DI\CompilerExtension
 {
 
 	/** @var array */
-	public $defaults = array(
+	public $defaults = [
 		'applicationId' => NULL,
 		'testMode' => FALSE,
 		'profiler' => NULL,
 		'cache' => TRUE,
 		'compression' => TRUE,
-	);
+	];
 
 
 	public function loadConfiguration()
@@ -41,7 +41,7 @@ class SkautisExtension extends Nette\DI\CompilerExtension
 		$config['profiler'] = $config['profiler'] ?? !empty($container->parameters['debugMode']);
 
 		$container->addDefinition($this->prefix('config'))
-			->setFactory(\Skautis\Config::class, array($config['applicationId'], $config['testMode'], $config['cache'], $config['compression']));
+			->setFactory(Config::class, [$config['applicationId'], $config['testMode'], $config['cache'], $config['compression']]);
 
 		$container->addDefinition($this->prefix('webServiceFactory'))
 			->setType(WebServiceFactory::class);
@@ -61,7 +61,7 @@ class SkautisExtension extends Nette\DI\CompilerExtension
 		if ($config['profiler'] && class_exists(Debugger::class)) {
 			$panel = $container->addDefinition($this->prefix('panel'))
 				->setType(Panel::class);
-			$manager->addSetup(array($panel, 'register'), array($manager));
+			$manager->addSetup([$panel, 'register'], [$manager]);
 		}
 	}
 
