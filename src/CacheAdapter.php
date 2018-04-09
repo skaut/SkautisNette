@@ -10,9 +10,6 @@ use Nette\Caching\IStorage;
 use Skautis\Wsdl\Decorator\Cache\CacheInterface;
 
 
-/**
- * Nette cache adapter for Skautis library
- */
 class CacheAdapter implements CacheInterface
 {
 
@@ -28,10 +25,6 @@ class CacheAdapter implements CacheInterface
 	private $expiration;
 
 
-	/**
-	 * @param IStorage $storage
-	 * @param string|null $namespace
-	 */
 	public function __construct(IStorage $storage, ?string $namespace = NULL)
 	{
 		$this->storage = $storage;
@@ -39,20 +32,12 @@ class CacheAdapter implements CacheInterface
 	}
 
 
-	/**
-	 * Returns cache storage.
-	 * @return IStorage
-	 */
 	public function getStorage(): IStorage
 	{
 		return $this->storage;
 	}
 
 
-	/**
-	 * Returns cache namespace.
-	 * @return string
-	 */
 	public function getNamespace(): string
 	{
 		return (string) substr($this->namespace, 0, -1);
@@ -95,7 +80,7 @@ class CacheAdapter implements CacheInterface
 
 
 	/**
-	 * @return array
+	 * @return mixed[]
 	 */
 	private function getDependencies(): array
 	{
@@ -111,9 +96,6 @@ class CacheAdapter implements CacheInterface
 
 	/**
 	 * Generates internal cache key.
-	 *
-	 * @param string $key
-	 * @return string
 	 */
 	protected function generateKey(string $key): string
 	{

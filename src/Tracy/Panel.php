@@ -22,14 +22,12 @@ class Panel implements Tracy\IBarPanel
 
 	use Nette\SmartObject;
 
-	/** @var array */
+	/** @var SkautisQuery[] */
 	private $queries = [];
 
 
 	/**
 	 * Registers event listener on WebService objects via WsdlManager
-	 *
-	 * @param WsdlManager $wsdlManager
 	 */
 	public function register(WsdlManager $wsdlManager): void
 	{
@@ -39,10 +37,6 @@ class Panel implements Tracy\IBarPanel
 	}
 
 
-	/**
-	 * Event logging
-	 * @param SkautisQuery $query
-	 */
 	public function logEvent(SkautisQuery $query): void
 	{
 		$this->queries[] = $query;
@@ -50,8 +44,7 @@ class Panel implements Tracy\IBarPanel
 
 
 	/**
-	 * Returns HTML code for custom tab. (Tracy\IBarPanel)
-	 * @return string
+	 * @inheritdoc
 	 */
 	public function getTab(): string
 	{
@@ -67,8 +60,7 @@ class Panel implements Tracy\IBarPanel
 
 
 	/**
-	 * Returns HTML code for custom panel. (Tracy\IBarPanel)
-	 * @return string
+	 * @inheritdoc
 	 */
 	public function getPanel(): string
 	{
@@ -97,7 +89,7 @@ class Panel implements Tracy\IBarPanel
 
 
 	/**
-	 * @param array $trace
+	 * @param mixed[] $trace
 	 * @return string
 	 */
 	protected function prepareTrace(array $trace): string
@@ -126,7 +118,7 @@ class Panel implements Tracy\IBarPanel
 	 * @param string|NULL $rel id of toggleable element
 	 * @return string
 	 */
-	protected function formatToggle(string $name, $rel = NULL): string
+	protected function formatToggle(string $name, ?string $rel = NULL): string
 	{
 		return "<a href='#" . ($rel === NULL ? "" : "$rel' rel='#$rel") . "' class='tracy-toggle tracy-collapsed'>$name</a>";
 	}

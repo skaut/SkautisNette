@@ -8,9 +8,6 @@ use Nette;
 use Skautis\SessionAdapter\AdapterInterface;
 
 
-/**
- * Nette session adapter for Skautis library
- */
 class SessionAdapter implements AdapterInterface
 {
 
@@ -20,9 +17,6 @@ class SessionAdapter implements AdapterInterface
 	protected $sessionSection;
 
 
-	/**
-	 * @param Nette\Http\Session $session
-	 */
 	public function __construct(Nette\Http\Session $session)
 	{
 		$this->sessionSection = $session->getSection(__CLASS__);

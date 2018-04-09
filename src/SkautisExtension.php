@@ -15,16 +15,10 @@ use Skautis\Nette\Tracy\Panel;
 use Tracy\Debugger;
 
 
-/**
- * Skautis extension for Nette Framework
- *
- * @author Hána František
- * @author Petr Morávek
- */
 class SkautisExtension extends Nette\DI\CompilerExtension
 {
 
-	/** @var array */
+	/** @var mixed[] */
 	public $defaults = [
 		'applicationId' => NULL,
 		'testMode' => FALSE,
