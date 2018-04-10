@@ -8,19 +8,15 @@ use Nette;
 use Skautis\SessionAdapter\AdapterInterface;
 
 
-/**
- * Nette session adapter for Skautis library
- */
 class SessionAdapter implements AdapterInterface
 {
+
+	use Nette\SmartObject;
 
 	/** @var Nette\Http\SessionSection */
 	protected $sessionSection;
 
 
-	/**
-	 * @param Nette\Http\Session $session
-	 */
 	public function __construct(Nette\Http\Session $session)
 	{
 		$this->sessionSection = $session->getSection(__CLASS__);
@@ -30,7 +26,7 @@ class SessionAdapter implements AdapterInterface
 	/**
 	 * @inheritdoc
 	 */
-	public function set($name, $object)
+	public function set($name, $object): void
 	{
 		$this->sessionSection->$name = $object;
 	}
@@ -39,7 +35,7 @@ class SessionAdapter implements AdapterInterface
 	/**
 	 * @inheritdoc
 	 */
-	public function has($name)
+	public function has($name): bool
 	{
 		return isset($this->sessionSection->$name);
 	}

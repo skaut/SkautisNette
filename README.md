@@ -13,7 +13,7 @@ Rozšíření pro [Nette](https://github.com/nette/nette) integrující [PHP kni
 
 # Instalace
 
-Nainstalujte balíček přes composer ``composer require skautis/nette:3.0.*``, zaregistrujte a nastavte rozšíření (extension) v konfiguračním souboru.
+Nainstalujte balíček přes composer ``composer require skautis/nette:^3.0``, zaregistrujte a nastavte rozšíření (extension) v konfiguračním souboru.
 
 Ukázka minimální konfigurace:
 ```
