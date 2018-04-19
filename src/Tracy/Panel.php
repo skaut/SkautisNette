@@ -15,13 +15,11 @@ use Tracy;
  */
 class Panel implements Tracy\IBarPanel
 {
+
 	use Nette\SmartObject;
 
-	/** @var string */
-	private $htmlPrefix = 'tracy';
-
 	/** @var array */
-	private $queries = array();
+	private $queries = [];
 
 
 	/**
@@ -31,8 +29,8 @@ class Panel implements Tracy\IBarPanel
 	 */
 	public function register(WsdlManager $wsdlManager)
 	{
-		$wsdlManager->addWebServiceListener(WebService::EVENT_SUCCESS, array($this, 'logEvent'));
-		$wsdlManager->addWebServiceListener(WebService::EVENT_FAILURE, array($this, 'logEvent'));
+		$wsdlManager->addWebServiceListener(WebService::EVENT_SUCCESS, [$this, 'logEvent']);
+		$wsdlManager->addWebServiceListener(WebService::EVENT_FAILURE, [$this, 'logEvent']);
 		Tracy\Debugger::getBar()->addPanel($this);
 	}
 
@@ -73,11 +71,11 @@ class Panel implements Tracy\IBarPanel
 		$cnt = 0;
 		$s = "";
 		foreach ($this->queries as $query) {
-			$rowId = "{$this->htmlPrefix}-debug-Skautis-args-row-$cnt";
+			$rowId = "tracy-debug-Skautis-args-row-$cnt";
 			$s .= "<tr>"
 				. "<td>" . sprintf('%0.2f', $query->time * 1000) . "</td>"
-				. "<td>{$query->fname}(" . $this->formatToggle('Args', $rowId) . ")<div id='$rowId' class='{$this->htmlPrefix}-collapsed'>" . $this->dump(reset($query->args[0])) . "</div></td>"
-				. "<td>" . $this->formatToggle('Result'). "<div class='{$this->htmlPrefix}-collapsed'>" . $this->dump($query->result) . "</div></td>"
+				. "<td>{$query->fname}(" . $this->formatToggle('Args', $rowId) . ")<div id='$rowId' class='tracy-collapsed'>" . $this->dump(reset($query->args[0])) . "</div></td>"
+				. "<td>" . $this->formatToggle('Result'). "<div class='tracy-collapsed'>" . $this->dump($query->result) . "</div></td>"
 				. "<td>" . $this->prepareTrace($query->trace) . "</td>"
 				. "</tr>";
 			$cnt++;
@@ -85,7 +83,7 @@ class Panel implements Tracy\IBarPanel
 
 		return empty($this->queries) ? '' :
 			'<h1>Skautis</h1>'
-			. '<div class="' . $this->htmlPrefix . '-inner">'
+			. '<div class="tracy-inner">'
 			. '<table>'
 			. '<tr><th>Time&nbsp;ms</th><th>Function&nbsp;name</th><th>Result</th><th>Trace</th></tr>'
 			. $s
@@ -105,7 +103,7 @@ class Panel implements Tracy\IBarPanel
 		foreach ($trace as $f) {
 			$s .= "" . ++$cnt . ". " . $f['function'] . " (" . (array_key_exists("class", $f) ? ":" . $f['class'] : "") . (array_key_exists("line", $f) ? ":" . $f['line'] : "") . ")" . '<br>';
 		}
-		return $this->formatToggle('Trace') . "<div class='{$this->htmlPrefix}-collapsed'>" . $s . "</div>";
+		return $this->formatToggle('Trace') . "<div class='tracy-collapsed'>" . $s . "</div>";
 	}
 
 
@@ -126,11 +124,7 @@ class Panel implements Tracy\IBarPanel
 	 */
 	protected function formatToggle($name, $rel = NULL)
 	{
-		// BC with Nette 2.1
-		$toggleClass = $this->htmlPrefix === 'tracy'
-			? "{$this->htmlPrefix}-toggle {$this->htmlPrefix}-collapsed"
-			: "{$this->htmlPrefix}-toggler {$this->htmlPrefix}-toggle-collapsed";
-		return "<a href='#" . ($rel === NULL ? "" : "$rel' rel='#$rel") . "' class='$toggleClass'>$name</a>";
+		return "<a href='#" . ($rel === NULL ? "" : "$rel' rel='#$rel") . "' class='tracy-toggle tracy-collapsed'>$name</a>";
 	}
 
 }

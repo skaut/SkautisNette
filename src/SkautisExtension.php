@@ -3,7 +3,6 @@
 namespace Skautis\Nette;
 
 use Nette;
-use Nette\DI\Config;
 use Skautis;
 use Tracy\Debugger;
 
@@ -34,7 +33,7 @@ class SkautisExtension extends Nette\DI\CompilerExtension
 		$config['profiler'] = isset($config['profiler']) ? $config['profiler'] : !empty($container->parameters['debugMode']);
 
 		$container->addDefinition($this->prefix('config'))
-			->setClass(Skautis\Config::class, array($config['applicationId'], $config['testMode'], $config['cache'], $config['compression']));
+			->setClass(Skautis\Config::class, [$config['applicationId'], $config['testMode'], $config['cache'], $config['compression']]);
 
 		$container->addDefinition($this->prefix('webServiceFactory'))
 			->setClass(Skautis\Wsdl\WebServiceFactory::class);
@@ -54,7 +53,7 @@ class SkautisExtension extends Nette\DI\CompilerExtension
 		if ($config['profiler'] && class_exists(Debugger::class)) {
 			$panel = $container->addDefinition($this->prefix('panel'))
 				->setClass(Skautis\Nette\Tracy\Panel::class);
-			$manager->addSetup([$panel, 'register'], array($manager));
+			$manager->addSetup([$panel, 'register'], [$manager]);
 		}
 	}
 

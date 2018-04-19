@@ -8,12 +8,12 @@ Rozšíření pro [Nette](https://github.com/nette/nette) integrující [PHP kni
 
 # Požadavky
 
-[Nette Framework](https://github.com/nette/nette) verze 2.1 nebo vyšší. Detaily v [composer.json](./composer.json).
+[Nette Framework](https://github.com/nette/nette) verze 2.4 nebo vyšší. Detaily v [composer.json](./composer.json).
 
 
 # Instalace
 
-Nainstalujte balíček přes composer ``composer require skautis/nette:2.0.*``, zaregistrujte a nastavte rozšíření (extension) v konfiguračním souboru.
+Nainstalujte balíček přes composer ``composer require skautis/nette:^2.1``, zaregistrujte a nastavte rozšíření (extension) v konfiguračním souboru.
 
 Ukázka minimální konfigurace:
 ```

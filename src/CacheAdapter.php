@@ -8,17 +8,13 @@ use Nette\Caching\IStorage;
 use Skautis\Wsdl\Decorator\Cache\CacheInterface;
 
 
-if (!class_exists('Nette\Utils\DateTime') && class_exists('Nette\DateTime')) {
-	// BC with Nette 2.1
-	class_alias('Nette\DateTime', 'Nette\Utils\DateTime');
-}
-
-
 /**
  * Nette cache adapter for Skautis library
  */
 class CacheAdapter implements CacheInterface
 {
+
+	use Nette\SmartObject;
 
 	/** @var IStorage */
 	private $storage;
@@ -101,7 +97,7 @@ class CacheAdapter implements CacheInterface
 	 */
 	private function getDependencies()
 	{
-		$dependencies = array();
+		$dependencies = [];
 
 		if (isset($this->expiration)) {
 			$dependencies[Cache::EXPIRATION] = Nette\Utils\DateTime::from($this->expiration)->format('U') - time();
@@ -128,7 +124,7 @@ class CacheAdapter implements CacheInterface
 	 */
 	public function clean()
 	{
-		$this->storage->clean(array(Cache::ALL => TRUE));
+		$this->storage->clean([Cache::ALL => TRUE]);
 	}
 
 }
