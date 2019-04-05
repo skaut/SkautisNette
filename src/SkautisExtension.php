@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Skautis\Nette;
 
 use Nette;
+use Nette\Schema\Expect;
 use Skautis\Config;
 use Skautis\Wsdl\WebServiceFactory;
 use Skautis\Wsdl\WsdlManager;
@@ -17,21 +18,22 @@ use Tracy\Debugger;
 
 class SkautisExtension extends Nette\DI\CompilerExtension
 {
-
-	/** @var mixed[] */
-	public $defaults = [
-		'applicationId' => NULL,
-		'testMode' => FALSE,
-		'profiler' => NULL,
-		'cache' => TRUE,
-		'compression' => TRUE,
-	];
-
+	public function getConfigSchema() : Nette\Schema\Schema
+	{
+		return Expect::structure([
+			'applicationId' => Expect::string()->required(),
+			'testMode' => Expect::bool(false),
+			'profiler' => Expect::bool()->nullable(),
+			'cache' => Expect::bool(true),
+			'compression' => Expect::bool(true),
+		]);
+	}
 
 	public function loadConfiguration(): void
 	{
 		$container = $this->getContainerBuilder();
-		$config = $this->validateConfig($this->defaults);
+		$config = (array) $this->getConfig();
+
 		$config['profiler'] = $config['profiler'] ?? !empty($container->parameters['debugMode']);
 
 		$container->addDefinition($this->prefix('config'))
