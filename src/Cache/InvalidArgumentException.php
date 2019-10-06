@@ -1,0 +1,14 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Skautis\Nette\Cache;
+
+class InvalidArgumentException
+  extends
+  \RuntimeException
+  implements
+  \Psr\SimpleCache\InvalidArgumentException
+{
+
+}
