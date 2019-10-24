@@ -41,3 +41,6 @@ $cache->set('key3', 10);
 Assert::equal(10, $cache->get('key3'));
 Assert::equal(true, $cache->delete('key3'));
 Assert::equal(null, $cache->get('key3'));
+
+$cache->set('key4', 11, new DateInterval('PT1M'));
+Assert::equal(11, $cache->get('key4'));

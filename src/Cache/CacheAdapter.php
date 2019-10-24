@@ -8,7 +8,6 @@ use DateInterval;
 use Exception;
 use Nette\Caching\Cache;
 use Psr\SimpleCache\CacheInterface;
-use Tracy\Debugger;
 use Traversable;
 
 
@@ -48,20 +47,10 @@ class CacheAdapter
     $this->assertValidKey($key);
 
     try {
-      $value = $this->cache->load(
-        $key,
-        static function () use
-        (
-          $default
-        ) {
-          return $default;
-        }
-      );
+      return $this->cache->load($key) ?? $default;
     } catch (Exception $exception) {
       throw new CacheException("Failed to load key '$key''", $exception);
     }
-
-    return $value;
   }
 
   /**
@@ -84,7 +73,9 @@ class CacheAdapter
         ]
       );
     } catch (Exception $exception) {
-      Debugger::log($exception);
+      if (class_exists('Tracy\Debugger')) {
+        \Tracy\Debugger::log($exception);
+      }
 
       return false;
     }
@@ -102,7 +93,9 @@ class CacheAdapter
     try {
       $this->cache->remove($key);
     } catch (Exception $exception) {
-      Debugger::log($exception);
+      if (class_exists('Tracy\Debugger')) {
+        \Tracy\Debugger::log($exception);
+      }
 
       return false;
     }
@@ -118,7 +111,9 @@ class CacheAdapter
     try {
       $this->cache->clean();
     } catch (Exception $exception) {
-      Debugger::log($exception);
+      if (class_exists('Tracy\Debugger')) {
+        \Tracy\Debugger::log($exception);
+      }
 
       return false;
     }
@@ -216,8 +211,9 @@ class CacheAdapter
 
   /**
    * @param null|string|DateInterval|mixed $ttl
+   * @return null|string|\DateTimeImmutable
    */
-  private function convertTTLToExpire($ttl): ?string
+  private function convertTTLToExpire($ttl)
   {
     // No TTL
     if ($ttl === null) {
@@ -229,7 +225,7 @@ class CacheAdapter
     }
 
     if ($ttl instanceof DateInterval) {
-      return "{$ttl->s} seconds";
+      return (new \DateTimeImmutable())->add($ttl);
     }
 
     throw new InvalidTTLException(
