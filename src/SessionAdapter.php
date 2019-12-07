@@ -26,7 +26,7 @@ class SessionAdapter implements AdapterInterface
 	/**
 	 * @inheritdoc
 	 */
-	public function set($name, $object): void
+	public function set(string $name, $object): void
 	{
 		$this->sessionSection->$name = $object;
 	}
@@ -35,7 +35,7 @@ class SessionAdapter implements AdapterInterface
 	/**
 	 * @inheritdoc
 	 */
-	public function has($name): bool
+	public function has(string $name): bool
 	{
 		return isset($this->sessionSection->$name);
 	}
@@ -44,7 +44,7 @@ class SessionAdapter implements AdapterInterface
 	/**
 	 * @inheritdoc
 	 */
-	public function get($name)
+	public function get(string  $name)
 	{
 		return $this->sessionSection->$name;
 	}

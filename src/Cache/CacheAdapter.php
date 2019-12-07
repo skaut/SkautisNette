@@ -165,11 +165,9 @@ class CacheAdapter
       throw new InvalidArgumentException('Values should be an iterable of key => value.');
     }
 
-    $expire = $this->convertTTLToExpire($ttl);
-
     $succeeded = true;
     foreach ($values as $key => $value) {
-      if (!$this->set($key, $value, $expire)) {
+      if (!$this->set($key, $value, $ttl)) {
         $succeeded = false;
       }
     }

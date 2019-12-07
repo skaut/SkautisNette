@@ -14,9 +14,13 @@ class InvalidKeyException
 {
 
 
+  /**
+   * @param string $validationError
+   * @param mixed $key
+   */
   public function __construct(
     string $validationError,
-    string $key
+    $key
   ) {
     parent::__construct("$validationError Found: \"$key\"");
   }

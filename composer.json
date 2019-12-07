@@ -26,7 +26,8 @@
 		"nette/tester": "^2.0",
     "tracy/tracy": "^2.5",
     "nette/caching": "^3.0",
-    "nette/bootstrap": "^3.0"
+    "nette/bootstrap": "^3.0",
+    "phpstan/phpstan": "^0.12"
 	},
     "suggest": {
         "tracy/tracy": "to enable skautis panel for Tracy debug bar.",

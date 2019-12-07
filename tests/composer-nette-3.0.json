@@ -26,7 +26,8 @@
 		"nette/tester": "2.3.*",
     "nette/caching": "3.0.*",
     "nette/bootstrap": "3.0.*",
-    "tracy/tracy": "2.6.*"
+    "tracy/tracy": "2.6.*",
+    "phpstan/phpstan": "^0.12"
   },
 	"autoload": {
 		"psr-4": {

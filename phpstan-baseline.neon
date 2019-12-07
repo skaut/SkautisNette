@@ -1,0 +1,27 @@
+parameters:
+  ignoreErrors:
+    -
+      # nette bug
+      count: 1
+      message: '#^Property Skautis\\Nette\\SessionAdapter::\$sessionSection type has no value type specified in iterable type Nette\\Http\\SessionSection\.$#'
+      path: src/SessionAdapter.php
+    -
+      count: 1
+      message: '#^Method Skautis\\Nette\\Cache\\CacheAdapter::__construct\(\) has parameter \$defaultTTLSeconds with no typehint specified\.$#'
+      path: src/Cache/CacheAdapter.php
+    -
+      count: 1
+      message: '#^Method Skautis\\Nette\\Cache\\CacheAdapter::getMultiple\(\) has parameter \$keys with no value type specified in iterable type iterable\.$#'
+      path: src/Cache/CacheAdapter.php
+    -
+      count: 1
+      message: '#^Method Skautis\\Nette\\Cache\\CacheAdapter::getMultiple\(\) return type has no value type specified in iterable type iterable\.$#'
+      path: src/Cache/CacheAdapter.php
+    -
+      count: 1
+      message: '#^Method Skautis\\Nette\\Cache\\CacheAdapter::setMultiple\(\) has parameter \$values with no value type specified in iterable type iterable\.$#'
+      path: src/Cache/CacheAdapter.php
+    -
+      count: 1
+      message: '#^Method Skautis\\Nette\\Cache\\CacheAdapter::deleteMultiple\(\) has parameter \$keys with no value type specified in iterable type iterable\.$#'
+      path: src/Cache/CacheAdapter.php
