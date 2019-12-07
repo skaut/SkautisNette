@@ -87,7 +87,7 @@ class CacheAdapter implements CacheInterface
 		$dependencies = [];
 
 		if (isset($this->expiration)) {
-			$dependencies[Cache::EXPIRATION] = Nette\Utils\DateTime::from($this->expiration)->format('U') - time();
+			$dependencies[Cache::EXPIRATION] = (int)Nette\Utils\DateTime::from($this->expiration)->format('U') - time();
 		}
 
 		return $dependencies;
@@ -99,7 +99,7 @@ class CacheAdapter implements CacheInterface
 	 */
 	protected function generateKey(string $key): string
 	{
-		return $this->namespace . md5(is_scalar($key) ? $key : serialize($key));
+		return $this->namespace . md5($key);
 	}
 
 

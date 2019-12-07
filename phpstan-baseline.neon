@@ -1,0 +1,47 @@
+parameters:
+  ignoreErrors:
+    -
+      # fixed in skautis 3
+      count: 1
+      message: '#^Method Skautis\\Nette\\CacheAdapter::get\(\) has parameter \$key with no typehint specified\.$#'
+      path: src/CacheAdapter.php
+    -
+      # fixed in skautis 3
+      count: 1
+      message: '#^Method Skautis\\Nette\\CacheAdapter::set\(\) has parameter \$data with no typehint specified\.$#'
+      path: src/CacheAdapter.php
+    -
+      # fixed in skautis 3
+      count: 1
+      message: '#^Method Skautis\\Nette\\CacheAdapter::set\(\) has parameter \$key with no typehint specified\.$#'
+      path: src/CacheAdapter.php
+    -
+      # nette bug
+      count: 1
+      message: '#^Property Skautis\\Nette\\SessionAdapter::\$sessionSection type has no value type specified in iterable type Nette\\Http\\SessionSection\.$#'
+      path: src/SessionAdapter.php
+    -
+      # fixed in skautis 3
+      count: 1
+      message: '#^Method Skautis\\Nette\\SessionAdapter::get\(\) has parameter \$name with no typehint specified\.$#'
+      path: src/SessionAdapter.php
+    -
+      # fixed in skautis 3
+      count: 1
+      message: '#^Method Skautis\\Nette\\SessionAdapter::set\(\) has parameter \$object with no typehint specified\.$#'
+      path: src/SessionAdapter.php
+    -
+      # fixed in skautis 3
+      count: 1
+      message: '#^Method Skautis\\Nette\\SessionAdapter::set\(\) has parameter \$name with no typehint specified\.$#'
+      path: src/SessionAdapter.php
+    -
+      # fixed in skautis 3
+      count: 1
+      message: '#^Method Skautis\\Nette\\SessionAdapter::has\(\) has parameter \$name with no typehint specified\.$#'
+      path: src/SessionAdapter.php
+    -
+      # fixed in skautis 3
+      count: 2
+      message: '#^Parameter \#1 \$eventName of method Skautis\\Wsdl\\WsdlManager::addWebServiceListener\(\) expects string, int given\.$#'
+      path: src/Tracy/Panel.php
