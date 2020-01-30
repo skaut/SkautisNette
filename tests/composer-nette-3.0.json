@@ -18,14 +18,16 @@
 	"require": {
 		"php": ">=7.1",
 		"skautis/skautis": "3.0.0-alpha.1",
-		"nette/di": "^3.0@dev",
-		"nette/http": "^3.0@dev",
-		"nette/utils": "^3.0@dev"
+		"nette/di": "^3.0",
+		"nette/http": "^3.0",
+		"nette/utils": "^3.0"
 	},
 	"require-dev": {
-		"nette/nette": "^3.0@dev",
-		"nette/tester": "^2.0"
-	},
+		"nette/tester": "^2.0",
+    "nette/caching": "3.0.*",
+    "nette/bootstrap": "3.0.*",
+    "tracy/tracy": "2.6.*"
+  },
     "suggest": {
         "tracy/tracy": "to enable skautis panel for Tracy debug bar.",
         "nette/caching": "to use Nette caching backend in CacheDecorator."
@@ -34,6 +36,5 @@
 		"psr-4": {
 			"Skautis\\Nette\\": "src/"
 		}
-	},
-	"minimum-stability": "dev"
+	}
 }
