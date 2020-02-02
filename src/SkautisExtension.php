@@ -33,26 +33,26 @@ class SkautisExtension extends Nette\DI\CompilerExtension
 		$config['profiler'] = isset($config['profiler']) ? $config['profiler'] : !empty($container->parameters['debugMode']);
 
 		$container->addDefinition($this->prefix('config'))
-			->setClass(Skautis\Config::class, [$config['applicationId'], $config['testMode'], $config['cache'], $config['compression']]);
+			->setFactory(Skautis\Config::class, [$config['applicationId'], $config['testMode'], $config['cache'], $config['compression']]);
 
 		$container->addDefinition($this->prefix('webServiceFactory'))
-			->setClass(Skautis\Wsdl\WebServiceFactory::class);
+			->setFactory(Skautis\Wsdl\WebServiceFactory::class);
 
 		$manager = $container->addDefinition($this->prefix('wsdlManager'))
-			->setClass(Skautis\Wsdl\WsdlManager::class);
+			->setFactory(Skautis\Wsdl\WsdlManager::class);
 
 		$container->addDefinition($this->prefix('session'))
-			->setClass(SessionAdapter::class);
+			->setFactory(SessionAdapter::class);
 
 		$container->addDefinition($this->prefix('user'))
-			->setClass(Skautis\User::class);
+			->setFactory(Skautis\User::class);
 
 		$container->addDefinition($this->prefix('skautis'))
-			->setClass(Skautis\Skautis::class);
+			->setFactory(Skautis\Skautis::class);
 
 		if ($config['profiler'] && class_exists(Debugger::class)) {
 			$panel = $container->addDefinition($this->prefix('panel'))
-				->setClass(Skautis\Nette\Tracy\Panel::class);
+				->setFactory(Skautis\Nette\Tracy\Panel::class);
 			$manager->addSetup([$panel, 'register'], [$manager]);
 		}
 	}
