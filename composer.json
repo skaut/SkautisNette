@@ -36,6 +36,5 @@
 		"psr-4": {
 			"Skautis\\Nette\\": "src/"
 		}
-	},
-	"minimum-stability": "stable"
+	}
 }
