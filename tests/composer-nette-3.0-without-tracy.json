@@ -1,0 +1,35 @@
+{
+	"name": "skautis/nette",
+	"type": "library",
+	"description": "Nette extension for Skautis library",
+	"keywords": ["skautis", "api", "nette"],
+	"homepage": "https://github.com/skaut/SkautisNette",
+	"license": ["BSD-3-Clause"],
+	"authors": [
+		{
+			"name": "František Hána",
+			"homepage": "http://sinacek.cz"
+		}
+	],
+	"support": {
+		"wiki": "http://is.skaut.cz/napoveda/",
+		"source": "https://github.com/skaut/SkautisNette"
+	},
+	"require": {
+		"php": ">=7.1",
+		"skautis/skautis": "3.0.0-alpha.1",
+		"nette/di": "^3.0",
+		"nette/http": "^3.0",
+		"nette/utils": "^3.0"
+	},
+	"require-dev": {
+		"nette/tester": "2.0.*",
+    "nette/caching": "3.0.*",
+    "nette/bootstrap": "3.0.*"
+  },
+	"autoload": {
+		"psr-4": {
+			"Skautis\\Nette\\": "src/"
+		}
+	}
+}
