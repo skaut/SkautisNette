@@ -8,11 +8,13 @@ Pro cachování požadavků na SkautIS je možné použít libovolné uložišt�
 // Získáme webovou službu ze skautisu
 $webService = $skautis->User;
 
-// Vytvoříme cache používající zvoleného uložiště
-$cache = new Skautis\Nette\CacheAdapter($storage, 'namespace');
+$storage = new MemoryStorage();
+$netteCache = new Cache($storage, 'namespace-skautis');
 
-// Nastavíme platnost cachovaných dat
-$cache->setExpiration('1 day');
+// Vytvoříme cache používající zvoleného uložiště
+// S platností cachovaných dat 1 den
+$ttl = 60*60*24; 
+$cache = new CacheAdapter($netteCache, $ttl);
 
 // Vytvoříme cachovanou webovou službu
 $cachedWebService = new CacheDecorator($webService, $cache);
