@@ -4,10 +4,10 @@ language: php
 sudo: false
 
 env:
-    - NETTE=2.4 COMPOSER_ARGS=""
-    - NETTE=2.4 COMPOSER_ARGS="--prefer-lowest"
-    - NETTE=3.0 COMPOSER_ARGS=""
-    - NETTE=3.0 COMPOSER_ARGS="--prefer-lowest"
+    - NETTE=2 COMPOSER_ARGS=""
+    - NETTE=2 COMPOSER_ARGS="--prefer-lowest"
+    - NETTE=3 COMPOSER_ARGS=""
+    - NETTE=3 COMPOSER_ARGS="--prefer-lowest"
     - NETTE=master
 
 php:
@@ -21,13 +21,13 @@ php:
 jobs:
     exclude:
         - php: 5.6
-          env: NETTE=3.0 COMPOSER_ARGS=""
+          env: NETTE=3 COMPOSER_ARGS=""
         - php: 5.6
-          env: NETTE=3.0 COMPOSER_ARGS="--prefer-lowest"
+          env: NETTE=3 COMPOSER_ARGS="--prefer-lowest"
         - php: 7.0
-          env: NETTE=3.0 COMPOSER_ARGS=""
+          env: NETTE=3 COMPOSER_ARGS=""
         - php: 7.0
-          env: NETTE=3.0 COMPOSER_ARGS="--prefer-lowest"
+          env: NETTE=3 COMPOSER_ARGS="--prefer-lowest"
 
 before_install:
     - composer self-update
