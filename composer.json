@@ -17,7 +17,7 @@
 	},
 	"require": {
 		"php": ">=7.1",
-		"skautis/skautis": "^3.0",
+		"skautis/skautis": "3.0.0-alpha.1",
 		"nette/di": "^3.0",
 		"nette/http": "^3.0",
 		"nette/utils": "^3.0"
@@ -34,6 +34,5 @@
 		"psr-4": {
 			"Skautis\\Nette\\": "src/"
 		}
-	},
-	"minimum-stability": "dev"
+	}
 }
