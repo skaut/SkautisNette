@@ -14,7 +14,18 @@ $configurator->setDebugMode(TRUE);
 $configurator->addConfig(__DIR__ . '/files/config.neon');
 $container = $configurator->createContainer();
 
-Assert::false($container->isCreated('skautis.panel'));
+if (class_exists('Tracy\Debugger')) {
+  Assert::true($container->hasService('skautis.panel'));
+  Assert::false($container->isCreated('skautis.panel'));
+}
+else {
+  Assert::false($container->hasService('skautis.panel'));
+}
+
+Assert::true($container->hasService('skautis.skautis'));
 Assert::type('Skautis\Skautis', $container->getService('skautis.skautis'));
-Assert::true($container->isCreated('skautis.panel'));
-Assert::type('Skautis\Nette\Tracy\Panel', $container->getService('skautis.panel'));
+
+if (class_exists('Tracy\Debugger')) {
+  Assert::true($container->isCreated('skautis.panel'));
+  Assert::type('Skautis\Nette\Tracy\Panel', $container->getService('skautis.panel'));
+}

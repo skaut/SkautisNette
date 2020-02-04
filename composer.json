@@ -23,8 +23,10 @@
 		"nette/utils": "^3.0"
 	},
 	"require-dev": {
-		"nette/nette": "^3.0",
-		"nette/tester": "^2.0"
+		"nette/tester": "^2.0",
+    "tracy/tracy": "^2.5",
+    "nette/caching": "^3.0",
+    "nette/bootstrap": "^3.0"
 	},
     "suggest": {
         "tracy/tracy": "to enable skautis panel for Tracy debug bar.",

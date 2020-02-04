@@ -4,6 +4,7 @@ language: php
 sudo: false
 
 env:
+    - NETTE=3.0-without-tracy
     - NETTE=3.0
     - NETTE=master
 
