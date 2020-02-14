@@ -4,29 +4,38 @@ language: php
 sudo: false
 
 env:
-    - NETTE=2.4
+    - NETTE=2 COMPOSER_ARGS=""
+    - NETTE=2 COMPOSER_ARGS="--prefer-lowest"
+    - NETTE=3 COMPOSER_ARGS=""
+    - NETTE=3 COMPOSER_ARGS="--prefer-lowest"
     - NETTE=master
 
 php:
     - 5.6
     - 7.0
     - 7.1
-    - hhvm
+    - 7.2
+    - 7.3
+    - 7.4
 
-matrix:
-    allow_failures:
-        - php: hhvm
-    include:
-        - php: 7.1
-          env:
-              - NETTE=3.0
+jobs:
+    exclude:
+        - php: 5.6
+          env: NETTE=3 COMPOSER_ARGS=""
+        - php: 5.6
+          env: NETTE=3 COMPOSER_ARGS="--prefer-lowest"
+        - php: 7.0
+          env: NETTE=3 COMPOSER_ARGS=""
+        - php: 7.0
+          env: NETTE=3 COMPOSER_ARGS="--prefer-lowest"
 
 before_install:
     - composer self-update
     - php tests/prepare-composer.php
 
 install:
-    - composer install --no-interaction --prefer-dist
+    - if [[ ${TRAVIS_PHP_VERSION:0:3} == "5.6" || ${TRAVIS_PHP_VERSION:0:3} == "7.0" ]]; then composer require --dev nette/tester ^2.0; fi
+    - composer update --no-interaction --prefer-dist $COMPOSER_ARGS
 
 script:
     - vendor/bin/tester tests -s -c tests/php-unix.ini -p php

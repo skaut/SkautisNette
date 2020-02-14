@@ -18,14 +18,15 @@
 	"require": {
 		"php": ">=5.6",
 		"skautis/skautis": "^2.0",
-		"nette/di": "^2.4 || ^3.0",
-		"nette/http": "^2.4 || ^3.0",
-		"nette/utils": "^2.4 || ^3.0"
+		"nette/di": "^2.4.6 || ^3.0.1",
+		"nette/http": "^2.4.7 || ^3.0",
+		"nette/utils": "^2.5.4 || ^3.0"
 	},
 	"require-dev": {
-		"nette/tester": "^2.0",
-		"tracy/tracy": "^2.5 || ^3.0",
-		"nette/caching": "^2.4 || ^3.0",
+		"nette/tester": "^2.3.1",
+		"tracy/tracy": "^2.5",
+		"nette/caching": "^2.5 || ^3.0",
+		"nette/finder": "^2.4",
 		"nette/bootstrap": "^2.4 || ^3.0"
 	},
     "suggest": {
@@ -36,6 +37,5 @@
 		"psr-4": {
 			"Skautis\\Nette\\": "src/"
 		}
-	},
-	"minimum-stability": "stable"
+	}
 }
