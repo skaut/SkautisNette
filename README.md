@@ -1,4 +1,7 @@
-[![Latest Stable Version](https://poser.pugx.org/skautis/nette/v/stable.svg)](https://packagist.org/packages/skautis/nette) [![Total Downloads](https://poser.pugx.org/skautis/nette/downloads.svg)](https://packagist.org/packages/skautis/nette) [![Latest Unstable Version](https://poser.pugx.org/skautis/nette/v/unstable.svg)](https://packagist.org/packages/skautis/nette) [![License](https://poser.pugx.org/skautis/nette/license.svg)](https://packagist.org/packages/skautis/nette)
+[![Latest Stable Version](https://poser.pugx.org/skautis/nette/v/stable.svg)](https://packagist.org/packages/skautis/nette)
+[![Total Downloads](https://poser.pugx.org/skautis/nette/downloads.svg)](https://packagist.org/packages/skautis/nette)
+[![Latest Unstable Version](https://poser.pugx.org/skautis/nette/v/unstable.svg)](https://packagist.org/packages/skautis/nette)
+[![License](https://poser.pugx.org/skautis/nette/license.svg)](https://packagist.org/packages/skautis/nette)
 
 SkautisNette
 ============
