@@ -1,0 +1,55 @@
+name: main
+
+on:
+  push:
+    branches:
+      - 3.x
+  pull_request:
+
+jobs:
+  unit-tests:
+    runs-on: ubuntu-20.04
+    continue-on-error: ${{ matrix.experimental }}
+    strategy:
+      matrix:
+        php-versions: ['7.4', '8.0']
+        nette: ['3.0-without-tracy', '3.0', 'master']
+        experimental: [false]
+        include:
+          - php-versions: '8.1'
+            nette: 'master'
+            experimental: true
+    name: PHP ${{ matrix.php-versions }} | nette ${{ matrix.nette }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Install PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-versions }}
+
+      - name: Cache/Restore dependencies
+        uses: "actions/cache@v2"
+        with:
+          path: |
+            ~/.composer/cache
+            vendor
+          key: php-${{ matrix.php-version }}
+          restore-keys: php-${{ matrix.php-version }}
+
+      - name: Prepare composer
+        run: export NETTE=${{ matrix.nette }} && php tests/prepare-composer.php
+
+      - name: Install Dependencies
+        run: composer install --no-interaction --prefer-dist
+
+      - name: Run Tests
+        run: vendor/bin/tester tests -s -C -p php
+
+      - name: PHPStan
+        run: if [[ ! ${{ matrix.nette }} =~ "-without-tracy" ]]; then vendor/bin/phpstan analyse --no-progress; fi
+
+      - name: Print failed tests
+        if: ${{ failure() }}
+        run: for i in $(find tests -name \*.actual); do echo "--- $i"; cat $i; echo; echo; done
