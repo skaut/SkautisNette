@@ -13,7 +13,7 @@ jobs:
     strategy:
       matrix:
         php-versions: ['7.4', '8.0']
-        nette: ['3.0-without-tracy', '3.0', 'master']
+        nette: ['3.0-without-tracy', '3.0', '3.1', '3.1-without-tracy', 'master']
         experimental: [false]
         include:
           - php-versions: '8.1'
