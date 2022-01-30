@@ -12,11 +12,11 @@ jobs:
     continue-on-error: ${{ matrix.experimental }}
     strategy:
       matrix:
-        php-versions: ['7.4', '8.0']
+        php-versions: ['7.4', '8.0', '8.1']
         nette: ['3.0-without-tracy', '3.0', 'master']
         experimental: [false]
         include:
-          - php-versions: '8.1'
+          - php-versions: '8.2'
             nette: 'master'
             experimental: true
     name: PHP ${{ matrix.php-versions }} | nette ${{ matrix.nette }}
