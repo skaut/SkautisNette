@@ -17,7 +17,7 @@
 	},
 	"require": {
 		"php": ">=7.2",
-		"skautis/skautis": "3.0.0-alpha.1",
+		"skautis/skautis": "3.0.0-alpha.3",
 		"nette/di": "^3.0",
 		"nette/http": "^3.1",
 		"nette/utils": "^3.1"
