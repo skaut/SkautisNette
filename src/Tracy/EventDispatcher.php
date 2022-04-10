@@ -16,9 +16,6 @@ use stdClass;
 class EventDispatcher implements EventDispatcherInterface
 {
     /** @var SkautisQuery[] */
-    private $requests = [];
-
-    /** @var SkautisQuery[] */
     private $queries = [];
 
     /**
@@ -26,28 +23,15 @@ class EventDispatcher implements EventDispatcherInterface
      */
     public function dispatch($event): void
     {
-        $requestId = new stdClass();
-        $requestId->fname = $event->getFname();
-        $requestId->args = $event->getArgs();
-        $requestHash = md5(serialize($requestId));
-
         switch (true) {
             case $event instanceof RequestPreEvent:
-                $this->requests[$requestHash] = SkautisQuery::createFromPreEvent($event);
+                // no-op
                 break;
             case $event instanceof RequestPostEvent:
-                if (key_exists($requestHash, $this->requests)) {
-                    $this->queries[] = SkautisQuery::updateFromPostEvent($this->requests[$requestHash], $event);
-                } else {
-                    $this->queries[] = SkautisQuery::createFromPostEvent($event); // should not happen
-                }
+                $this->queries[] = SkautisQuery::createFromPostEvent($event);
                 break;
             case $event instanceof RequestFailEvent:
-                if (key_exists($requestHash, $this->requests)) {
-                    $this->queries[] = SkautisQuery::updateFromFailEvent($this->requests[$requestHash], $event);
-                } else {
-                    $this->queries[] = SkautisQuery::createFromFailEvent($event); // should not happen
-                }
+                $this->queries[] = SkautisQuery::createFromFailEvent($event);
                 break;
         }
     }

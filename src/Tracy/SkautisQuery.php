@@ -52,26 +52,11 @@ class SkautisQuery
         $this->result = $result;
     }
 
-    public static function createFromPreEvent(RequestPreEvent $event): SkautisQuery {
-        return new SkautisQuery($event->getFname(), $event->getArgs(), $event->getTrace(), 0, null);
-    }
-
     public static function createFromPostEvent(RequestPostEvent $event): SkautisQuery {
-        return new SkautisQuery($event->getFname(), $event->getArgs(), [], $event->getDuration(), $event->getResult());
+        return new SkautisQuery($event->getFname(), $event->getArgs(), $event->getTrace(), $event->getDuration(), $event->getResult());
     }
 
     public static function createFromFailEvent(RequestFailEvent $event): SkautisQuery {
-        return new SkautisQuery($event->getFname(), $event->getArgs(), [], $event->getDuration(), null);
-    }
-
-    public static function updateFromPostEvent(SkautisQuery $query, RequestPostEvent $event): SkautisQuery {
-        $query->time = $event->getDuration();
-        $query->result = $event->getResult();
-        return $query;
-    }
-
-    public static function updateFromFailEvent(SkautisQuery $query, RequestFailEvent $event): SkautisQuery {
-        $query->time = $event->getDuration();
-        return $query;
+        return new SkautisQuery($event->getFname(), $event->getArgs(), $event->getTrace(), $event->getDuration(), null);
     }
 }
