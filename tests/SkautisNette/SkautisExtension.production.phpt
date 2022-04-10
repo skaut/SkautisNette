@@ -14,5 +14,5 @@ $configurator->setDebugMode(FALSE);
 $configurator->addConfig(__DIR__ . '/files/config.neon');
 $container = $configurator->createContainer();
 
-Assert::type('Skautis\Skautis', $container->getService('skautis.skautis'));
+Assert::type('Skaut\Skautis\Skautis', $container->getService('skautis.skautis'));
 Assert::false($container->hasService('skautis.panel'));
