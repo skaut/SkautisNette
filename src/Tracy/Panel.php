@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Skautis\Nette\Tracy;
 
 use Nette;
-use Skautis\SkautisQuery;
-use Skautis\Wsdl\WebService;
-use Skautis\Wsdl\WsdlManager;
+//use Skaut\Skautis\SkautisQuery;
+use Skaut\Skautis\Wsdl\WebService;
+use Skaut\Skautis\Wsdl\WsdlManager;
 use Tracy;
 use Tracy\Debugger;
 
@@ -22,8 +22,8 @@ class Panel implements Tracy\IBarPanel
 
 	use Nette\SmartObject;
 
-	/** @var SkautisQuery[] */
-	private $queries = [];
+//	/** @var SkautisQuery[] */
+//	private $queries = [];
 
 
 	/**
@@ -31,16 +31,16 @@ class Panel implements Tracy\IBarPanel
 	 */
 	public function register(WsdlManager $wsdlManager): void
 	{
-		$wsdlManager->addWebServiceListener(WebService::EVENT_SUCCESS, [$this, 'logEvent']);
-		$wsdlManager->addWebServiceListener(WebService::EVENT_FAILURE, [$this, 'logEvent']);
+//		$wsdlManager->addWebServiceListener(WebService::EVENT_SUCCESS, [$this, 'logEvent']);
+//		$wsdlManager->addWebServiceListener(WebService::EVENT_FAILURE, [$this, 'logEvent']);
 		Debugger::getBar()->addPanel($this);
 	}
 
 
-	public function logEvent(SkautisQuery $query): void
-	{
-		$this->queries[] = $query;
-	}
+//	public function logEvent(SkautisQuery $query): void
+//	{
+//		$this->queries[] = $query;
+//	}
 
 
 	/**

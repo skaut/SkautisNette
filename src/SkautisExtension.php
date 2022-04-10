@@ -6,12 +6,11 @@ namespace Skautis\Nette;
 
 use Nette;
 use Nette\Schema\Expect;
-use Skautis\Config;
-use Skautis\Wsdl\WebServiceFactory;
-use Skautis\Wsdl\WsdlManager;
-use Skautis\Nette\SessionAdapter;
-use Skautis\User;
-use Skautis\Skautis;
+use Skaut\Skautis\Config;
+use Skaut\Skautis\Wsdl\WebServiceFactory;
+use Skaut\Skautis\Wsdl\WsdlManager;
+use Skaut\Skautis\User;
+use Skaut\Skautis\Skautis;
 use Skautis\Nette\Tracy\Panel;
 use Tracy\Debugger;
 
