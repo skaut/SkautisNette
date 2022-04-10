@@ -27,5 +27,5 @@ Assert::type('Skaut\Skautis\Skautis', $container->getService('skautis.skautis'))
 
 if (class_exists('Tracy\Debugger')) {
   Assert::true($container->isCreated('skautis.panel'));
-  Assert::type('Skaut\Skautis\Nette\Tracy\Panel', $container->getService('skautis.panel'));
+  Assert::type('Skautis\Nette\Tracy\Panel', $container->getService('skautis.panel'));
 }
