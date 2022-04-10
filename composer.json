@@ -16,7 +16,7 @@
 		"source": "https://github.com/skaut/SkautisNette"
 	},
 	"require": {
-		"php": ">=7.1",
+		"php": ">=7.2",
 		"skautis/skautis": "3.0.0-alpha.4",
 		"nette/di": "^3.0",
 		"nette/http": "^3.0",

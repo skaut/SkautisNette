@@ -7,7 +7,6 @@ use Psr\EventDispatcher\EventDispatcherInterface;
 use Skaut\Skautis\Wsdl\Event\RequestFailEvent;
 use Skaut\Skautis\Wsdl\Event\RequestPostEvent;
 use Skaut\Skautis\Wsdl\Event\RequestPreEvent;
-use stdClass;
 
 
 /**

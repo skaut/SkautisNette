@@ -5,7 +5,6 @@ namespace Skautis\Nette\Tracy;
 
 use Skaut\Skautis\Wsdl\Event\RequestFailEvent;
 use Skaut\Skautis\Wsdl\Event\RequestPostEvent;
-use Skaut\Skautis\Wsdl\Event\RequestPreEvent;
 
 
 /**
