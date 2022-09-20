@@ -35,7 +35,7 @@ class EventDispatcher implements EventDispatcherInterface
                 break;
         }
 
-        return new stdClass();
+        return $event;
     }
 
     /** @return SkautisQuery[] */
