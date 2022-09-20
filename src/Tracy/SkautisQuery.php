@@ -20,7 +20,7 @@ class SkautisQuery
 
     /**
      * Parametry SOAP requestu na server.
-     * @var array<int, mixed>
+     * @var array<int|string, mixed>
      */
     public $args;
 
@@ -42,7 +42,12 @@ class SkautisQuery
      */
     public $result;
 
-    private function __construct($fname, $args, $trace, $time, $result)
+    /**
+     * @param array<int|string, mixed> $args
+     * @param array<int, array<string, mixed>> $trace
+     * @param mixed $result
+     */
+    private function __construct(string $fname, array $args, array $trace, float $time, $result)
     {
         $this->fname = $fname;
         $this->args = $args;

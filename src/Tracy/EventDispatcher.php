@@ -7,6 +7,7 @@ use Psr\EventDispatcher\EventDispatcherInterface;
 use Skaut\Skautis\Wsdl\Event\RequestFailEvent;
 use Skaut\Skautis\Wsdl\Event\RequestPostEvent;
 use Skaut\Skautis\Wsdl\Event\RequestPreEvent;
+use stdClass;
 
 
 /**
@@ -20,7 +21,7 @@ class EventDispatcher implements EventDispatcherInterface
     /**
      * @param RequestPreEvent|RequestPostEvent|RequestFailEvent $event
      */
-    public function dispatch($event): void
+    public function dispatch($event): object
     {
         switch (true) {
             case $event instanceof RequestPreEvent:
@@ -33,6 +34,8 @@ class EventDispatcher implements EventDispatcherInterface
                 $this->queries[] = SkautisQuery::createFromFailEvent($event);
                 break;
         }
+
+        return new stdClass();
     }
 
     /** @return SkautisQuery[] */

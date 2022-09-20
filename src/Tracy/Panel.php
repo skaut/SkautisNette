@@ -19,11 +19,9 @@ class Panel implements Tracy\IBarPanel
 {
 	use Nette\SmartObject;
 
+    /** @var EventDispatcher */
     private $eventDispatcher;
 
-    /**
-     * @param $eventDispatcher
-     */
     public function __construct()
     {
         $this->eventDispatcher = new EventDispatcher();
