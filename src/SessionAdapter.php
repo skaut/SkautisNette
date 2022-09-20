@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Skautis\Nette;
 
 use Nette;
-use Skautis\SessionAdapter\AdapterInterface;
+use Skaut\Skautis\SessionAdapter\AdapterInterface;
 
 
 class SessionAdapter implements AdapterInterface

@@ -23,7 +23,7 @@ else {
 }
 
 Assert::true($container->hasService('skautis.skautis'));
-Assert::type('Skautis\Skautis', $container->getService('skautis.skautis'));
+Assert::type('Skaut\Skautis\Skautis', $container->getService('skautis.skautis'));
 
 if (class_exists('Tracy\Debugger')) {
   Assert::true($container->isCreated('skautis.panel'));
