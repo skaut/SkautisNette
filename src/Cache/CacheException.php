@@ -2,21 +2,18 @@
 
 declare(strict_types=1);
 
+namespace Skaut\SkautisNette\Cache;
 
-namespace Skautis\Nette\Cache;
+use RuntimeException;
+use Throwable;
 
-
-class CacheException
-  extends
-  \RuntimeException
-  implements
-  \Psr\SimpleCache\InvalidArgumentException
+/**
+ * The underlying Nette storage failed.
+ */
+class CacheException extends RuntimeException implements \Psr\SimpleCache\CacheException
 {
-
-  public function __construct(
-    string $message,
-    \Throwable $previous
-  ) {
-    parent::__construct($message, 0, $previous);
-  }
+    public function __construct(string $message, ?Throwable $previous = null)
+    {
+        parent::__construct($message, 0, $previous);
+    }
 }

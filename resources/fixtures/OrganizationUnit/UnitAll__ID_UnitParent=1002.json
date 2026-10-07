@@ -1,0 +1,4 @@
+[
+  {"ID": 1003, "SortName": "3. oddíl Vlčata", "DisplayName": "3. oddíl Vlčata", "FullDisplayName": "3. oddíl Vlčata Praha", "RegistrationNumber": "622.01.003", "ID_UnitType": "oddil", "ID_UnitParent": 1002},
+  {"ID": 1004, "SortName": "4. oddíl Skauti", "DisplayName": "4. oddíl Skauti", "FullDisplayName": "4. oddíl Skauti Praha", "RegistrationNumber": "622.01.004", "ID_UnitType": "oddil", "ID_UnitParent": 1002}
+]

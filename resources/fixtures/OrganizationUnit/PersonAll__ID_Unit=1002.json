@@ -1,0 +1,8 @@
+[
+  {"ID": 100, "DisplayName": "Novák Jan (Honza)", "FirstName": "Jan", "LastName": "Novák", "NickName": "Honza", "Birthday": "1990-05-04T00:00:00", "ID_Sex": "male", "Sex": "Muž", "ID_Unit": 1002, "Street": "Skautská 1", "City": "Praha", "Postcode": "11000", "State": "Česká republika"},
+  {"ID": 101, "DisplayName": "Malá Anna", "FirstName": "Anna", "LastName": "Malá", "NickName": "", "Birthday": "2015-03-12T00:00:00", "ID_Sex": "female", "Sex": "Žena", "ID_Unit": 1003, "Street": "Lesní 5", "City": "Praha", "Postcode": "11000", "State": "Česká republika"},
+  {"ID": 102, "DisplayName": "Malý Petr (Péťa)", "FirstName": "Petr", "LastName": "Malý", "NickName": "Péťa", "Birthday": "2013-08-20T00:00:00", "ID_Sex": "male", "Sex": "Muž", "ID_Unit": 1003, "Street": "Lesní 5", "City": "Praha", "Postcode": "11000", "State": "Česká republika"},
+  {"ID": 103, "DisplayName": "Velká Eva", "FirstName": "Eva", "LastName": "Velká", "NickName": "", "Birthday": "2012-01-30T00:00:00", "ID_Sex": "female", "Sex": "Žena", "ID_Unit": 1004, "Street": "Horní 8", "City": "Praha", "Postcode": "11000", "State": "Česká republika"},
+  {"ID": 104, "DisplayName": "Dospělý Tomáš", "FirstName": "Tomáš", "LastName": "Dospělý", "NickName": "", "Birthday": "2004-11-11T00:00:00", "ID_Sex": "male", "Sex": "Muž", "ID_Unit": 1004, "Street": "Dolní 2", "City": "Praha", "Postcode": "11000", "State": "Česká republika"},
+  {"ID": 105, "DisplayName": "Bezmailu Karel", "FirstName": "Karel", "LastName": "Bezmailu", "NickName": "", "Birthday": "2014-06-06T00:00:00", "ID_Sex": "male", "Sex": "Muž", "ID_Unit": 1003, "Street": "", "City": "Praha", "Postcode": "", "State": "Česká republika"}
+]

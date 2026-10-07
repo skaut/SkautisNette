@@ -2,51 +2,36 @@
 
 declare(strict_types=1);
 
-namespace Skautis\Nette;
+namespace Skaut\SkautisNette;
 
-use Nette;
+use Nette\Http\Session;
+use Nette\Http\SessionSection;
 use Skaut\Skautis\SessionAdapter\AdapterInterface;
 
-
+/**
+ * Keeps the skautIS login data in a section of the Nette session.
+ */
 class SessionAdapter implements AdapterInterface
 {
+    private SessionSection $section;
 
-	use Nette\SmartObject;
+    public function __construct(Session $session)
+    {
+        $this->section = $session->getSection(self::class);
+    }
 
-	/** @var Nette\Http\SessionSection */
-	protected $sessionSection;
+    public function set(string $name, mixed $object): void
+    {
+        $this->section->set($name, $object);
+    }
 
+    public function has(string $name): bool
+    {
+        return $this->section->get($name) !== null;
+    }
 
-	public function __construct(Nette\Http\Session $session)
-	{
-		$this->sessionSection = $session->getSection(__CLASS__);
-	}
-
-
-	/**
-	 * @inheritdoc
-	 */
-	public function set(string $name, $object): void
-	{
-		$this->sessionSection->$name = $object;
-	}
-
-
-	/**
-	 * @inheritdoc
-	 */
-	public function has(string $name): bool
-	{
-		return isset($this->sessionSection->$name);
-	}
-
-
-	/**
-	 * @inheritdoc
-	 */
-	public function get(string  $name)
-	{
-		return $this->sessionSection->$name;
-	}
-
+    public function get(string $name): mixed
+    {
+        return $this->section->get($name);
+    }
 }

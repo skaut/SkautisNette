@@ -2,255 +2,212 @@
 
 declare(strict_types=1);
 
-namespace Skautis\Nette\Cache;
+namespace Skaut\SkautisNette\Cache;
 
 use DateInterval;
-use Exception;
+use DateTimeImmutable;
 use Nette\Caching\Cache;
 use Psr\SimpleCache\CacheInterface;
-use Traversable;
-
+use Throwable;
 
 /**
- * Nette cache adapter for Skautis library
+ * PSR-16 adapter over nette/caching, meant for Skaut\Skautis\Wsdl\Decorator\Cache\CacheDecorator.
+ *
+ * Nette cannot store null, so a stored null and a missing item are the same thing: has() returns false
+ * and get() returns the default. Write failures of the storage make set(), delete() and clear() return false.
  */
-class CacheAdapter
-  implements
-  CacheInterface
+class CacheAdapter implements CacheInterface
 {
+    private const string RESERVED_CHARACTERS = '{}()/\\@:';
 
-  /**
-   * @var Cache
-   */
-  private $cache;
-
-  /**
-   * @var int|null
-   */
-  private $defaultTTL;
-
-  public function __construct(
-    Cache $cache,
-    $defaultTTLSeconds = null
-  ) {
-    $this->cache = $cache;
-    $this->defaultTTL = $defaultTTLSeconds;
-  }
-
-  /**
-   * @inheritDoc
-   */
-  public function get(
-    $key,
-    $default = null
-  ) {
-    $this->assertValidKey($key);
-
-    try {
-      return $this->cache->load($key) ?? $default;
-    } catch (Exception $exception) {
-      throw new CacheException("Failed to load key '$key''", $exception);
-    }
-  }
-
-  /**
-   * @inheritDoc
-   */
-  public function set(
-    $key,
-    $value,
-    $ttl = null
-  ): bool {
-    $this->assertValidKey($key);
-
-    try {
-      $this->cache->save(
-        $key,
-        $value,
-        [
-          Cache::EXPIRE => $this->convertTTLToExpire($ttl),
-          Cache::SLIDING => false,
-        ]
-      );
-    } catch (Exception $exception) {
-      if (class_exists('Tracy\Debugger')) {
-        \Tracy\Debugger::log($exception);
-      }
-
-      return false;
+    /**
+     * @param int|null $defaultTtl seconds an item lives when set() gets no TTL; null = until the storage drops it
+     *
+     * @throws InvalidTTLException
+     */
+    public function __construct(
+        private readonly Cache $cache,
+        private readonly ?int $defaultTtl = null,
+    ) {
+        if ($defaultTtl !== null && $defaultTtl <= 0) {
+            throw new InvalidTTLException('Default TTL must be a positive number of seconds or null.');
+        }
     }
 
-    return true;
-  }
+    public function get(string $key, mixed $default = null): mixed
+    {
+        $this->assertValidKey($key);
 
-  /**
-   * @inheritDoc
-   */
-  public function delete($key): bool
-  {
-    $this->assertValidKey($key);
-
-    try {
-      $this->cache->remove($key);
-    } catch (Exception $exception) {
-      if (class_exists('Tracy\Debugger')) {
-        \Tracy\Debugger::log($exception);
-      }
-
-      return false;
+        try {
+            return $this->cache->load($key) ?? $default;
+        } catch (Throwable $exception) {
+            throw new CacheException("Failed to load key '$key'.", $exception);
+        }
     }
 
-    return true;
-  }
+    public function set(string $key, mixed $value, null|int|DateInterval $ttl = null): bool
+    {
+        $this->assertValidKey($key);
+        $seconds = $this->ttlToSeconds($ttl);
 
-  /**
-   * @inheritDoc
-   */
-  public function clear(): bool
-  {
-    try {
-      $this->cache->clean();
-    } catch (Exception $exception) {
-      if (class_exists('Tracy\Debugger')) {
-        \Tracy\Debugger::log($exception);
-      }
+        try {
+            if ($seconds !== null && $seconds <= 0) {
+                // PSR-16: a zero or negative TTL means the item is expired already
+                $this->cache->remove($key);
+            } else {
+                $this->cache->save($key, $value, $seconds === null ? null : [Cache::Expire => $seconds]);
+            }
+        } catch (Throwable) {
+            return false;
+        }
 
-      return false;
+        return true;
     }
 
-    return true;
-  }
+    public function delete(string $key): bool
+    {
+        $this->assertValidKey($key);
 
-  /**
-   * @inheritDoc
-   */
-  public function getMultiple(
-    $keys,
-    $default = null
-  ) {
+        try {
+            $this->cache->remove($key);
+        } catch (Throwable) {
+            return false;
+        }
 
-    if ($keys instanceof Traversable) {
-      $keys = iterator_to_array($keys, false);
+        return true;
     }
 
-    if (!is_array($keys)) {
-      throw new InvalidArgumentException('Keys should be an iterable of strings.');
+    public function clear(): bool
+    {
+        try {
+            $this->cache->clean([Cache::All => true]);
+        } catch (Throwable) {
+            return false;
+        }
+
+        return true;
     }
 
-    array_map([$this, 'assertValidKey'], $keys);
+    /**
+     * @param iterable<mixed> $keys
+     *
+     * @return array<string, mixed>
+     */
+    public function getMultiple(iterable $keys, mixed $default = null): iterable
+    {
+        $keys = $this->toKeyList($keys);
 
-    return $this->cache->bulkLoad(
-      $keys,
-      static function () use
-      (
-        $default
-      ) {
-        return $default;
-      }
-    );
-  }
+        try {
+            $values = $this->cache->bulkLoad($keys);
+        } catch (Throwable $exception) {
+            throw new CacheException('Failed to load keys '.implode(', ', $keys).'.', $exception);
+        }
 
-  /**
-   * @inheritDoc
-   */
-  public function setMultiple(
-    $values,
-    $ttl = null
-  ) {
-    if ($values instanceof Traversable) {
-      $values = iterator_to_array($values, true);
+        $result = [];
+        foreach ($keys as $key) {
+            $result[$key] = $values[$key] ?? $default;
+        }
+
+        return $result;
     }
 
-    if (!is_array($values)) {
-      throw new InvalidArgumentException('Values should be an iterable of key => value.');
+    /**
+     * @param iterable<mixed, mixed> $values
+     */
+    public function setMultiple(iterable $values, null|int|DateInterval $ttl = null): bool
+    {
+        $succeeded = true;
+        foreach ($values as $key => $value) {
+            // PHP turns numeric string keys of an array into integers
+            $key = \is_int($key) ? (string) $key : $key;
+            if (! \is_string($key)) {
+                throw new InvalidKeyException('Cache key must be a string, '.get_debug_type($key).' given.');
+            }
+
+            if (! $this->set($key, $value, $ttl)) {
+                $succeeded = false;
+            }
+        }
+
+        return $succeeded;
     }
 
-    $succeeded = true;
-    foreach ($values as $key => $value) {
-      if (!$this->set($key, $value, $ttl)) {
-        $succeeded = false;
-      }
+    /**
+     * @param iterable<mixed> $keys
+     */
+    public function deleteMultiple(iterable $keys): bool
+    {
+        $succeeded = true;
+        foreach ($this->toKeyList($keys) as $key) {
+            if (! $this->delete($key)) {
+                $succeeded = false;
+            }
+        }
+
+        return $succeeded;
     }
 
-    return $succeeded;
-  }
+    public function has(string $key): bool
+    {
+        $this->assertValidKey($key);
 
-  /**
-   * @inheritDoc
-   */
-  public function deleteMultiple($keys): bool
-  {
-    if ($keys instanceof Traversable) {
-      $keys = iterator_to_array($keys, false);
-    }
-    if (!is_array($keys)) {
-      throw new InvalidArgumentException('Keys should be an iterable of strings.');
+        try {
+            return $this->cache->load($key) !== null;
+        } catch (Throwable $exception) {
+            throw new CacheException("Failed to load key '$key'.", $exception);
+        }
     }
 
-    $succeeded = true;
-    foreach ($keys as $key) {
-      if (!$this->delete($key)) {
-        $succeeded = false;
-      }
+    /**
+     * @param iterable<mixed> $keys
+     *
+     * @return list<string>
+     *
+     * @throws InvalidKeyException
+     */
+    private function toKeyList(iterable $keys): array
+    {
+        $list = [];
+        foreach ($keys as $key) {
+            if (! \is_string($key)) {
+                throw new InvalidKeyException('Cache key must be a string, '.get_debug_type($key).' given.');
+            }
+            $this->assertValidKey($key);
+            $list[] = $key;
+        }
+
+        return $list;
     }
 
-    return $succeeded;
-  }
+    /**
+     * @return int|null null = no expiration
+     */
+    private function ttlToSeconds(null|int|DateInterval $ttl): ?int
+    {
+        if ($ttl === null) {
+            return $this->defaultTtl;
+        }
 
-  /**
-   * @inheritDoc
-   */
-  public function has($key): bool
-  {
-    $this->assertValidKey($key);
+        if ($ttl instanceof DateInterval) {
+            $now = new DateTimeImmutable();
 
-    return $this->cache->load($key) !== null;
-  }
+            return $now->add($ttl)->getTimestamp() - $now->getTimestamp();
+        }
 
-  /**
-   * @param null|string|DateInterval|mixed $ttl
-   * @return null|string|\DateTimeImmutable
-   */
-  private function convertTTLToExpire($ttl)
-  {
-    // No TTL
-    if ($ttl === null) {
-      return $this->defaultTTL === null ? null : $this->defaultTTL . ' seconds';
+        return $ttl;
     }
 
-    if (is_int($ttl) && $ttl > 0) {
-      return "$ttl seconds";
+    /**
+     * @throws InvalidKeyException
+     */
+    private function assertValidKey(string $key): void
+    {
+        if ($key === '') {
+            throw new InvalidKeyException('Cache key must be at least one character long.');
+        }
+
+        if (strpbrk($key, self::RESERVED_CHARACTERS) !== false) {
+            throw new InvalidKeyException("Cache key '$key' contains one of the reserved characters ".self::RESERVED_CHARACTERS.'.');
+        }
     }
-
-    if ($ttl instanceof DateInterval) {
-      return (new \DateTimeImmutable())->add($ttl);
-    }
-
-    throw new InvalidTTLException(
-      'TTL must be either null, positive integer representing seconds or DateInterval'
-    );
-  }
-
-  /**
-   * Throws an exception if $key isn't valid  PSR-16 cache key
-   *
-   * @param mixed|string $key
-   */
-  private function assertValidKey($key): void
-  {
-    if (!is_string($key)) {
-      throw new InvalidKeyException('Cache key must be a string', $key);
-    }
-
-    if (empty($key)) {
-      throw new InvalidKeyException('Cache key must be at least one character long', $key);
-    }
-
-
-    if (preg_match('/[{}()\/@:\\\]+/', $key)) {
-      throw new InvalidKeyException(
-        'Cache key must not contain any reserved characters "{}()/\@:"', $key
-      );
-    }
-  }
 }

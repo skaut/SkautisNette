@@ -2,62 +2,103 @@
 
 declare(strict_types=1);
 
-namespace Skautis\Nette;
+namespace Skaut\SkautisNette;
 
-use Nette;
+use Nette\DI\CompilerExtension;
+use Nette\PhpGenerator\ClassType;
 use Nette\Schema\Expect;
+use Nette\Schema\Schema;
 use Skaut\Skautis\Config;
-use Skaut\Skautis\Wsdl\WebServiceFactory;
-use Skaut\Skautis\Wsdl\WsdlManager;
-use Skaut\Skautis\User;
 use Skaut\Skautis\Skautis;
-use Skautis\Nette\Tracy\Panel;
-use Tracy\Debugger;
+use Skaut\Skautis\User;
+use Skaut\Skautis\Wsdl\WebService;
+use Skaut\Skautis\Wsdl\WebServiceFactory;
+use Skaut\Skautis\Wsdl\WebServiceFactoryInterface;
+use Skaut\Skautis\Wsdl\WsdlManager;
+use Skaut\SkautisNette\Fixture\FixtureWebServiceFactory;
+use Skaut\SkautisNette\Tracy\Panel;
+use Skaut\SkautisNette\Tracy\QueryLog;
+use stdClass;
+use Tracy\Bar;
 
-
-class SkautisExtension extends Nette\DI\CompilerExtension
+/**
+ * Registers the skaut/skautis services.
+ *
+ * Services (prefixed with the extension name): config, eventDispatcher, webServiceFactory, wsdlManager,
+ * session, user, skautis and, with Tracy and the profiler on, queryLog and panel.
+ */
+class SkautisExtension extends CompilerExtension
 {
-	public function getConfigSchema() : Nette\Schema\Schema
-	{
-		return Expect::structure([
-			'applicationId' => Expect::string()->required(),
-			'testMode' => Expect::bool(false),
-			'profiler' => Expect::bool()->nullable(),
-			'cache' => Expect::bool(true),
-			'compression' => Expect::bool(true),
-		]);
-	}
+    public function getConfigSchema(): Schema
+    {
+        return Expect::structure([
+            'applicationId' => Expect::string()->required(),
+            'testMode' => Expect::bool()->required(),
+            'cache' => Expect::bool(Config::CACHE_ENABLED),
+            'compression' => Expect::bool(Config::COMPRESSION_ENABLED),
+            'profiler' => Expect::bool()->nullable(),
+            'fixtures' => Expect::string()->nullable(),
+        ]);
+    }
 
-	public function loadConfiguration(): void
-	{
-		$container = $this->getContainerBuilder();
-		$config = (array) $this->getConfig();
+    public function loadConfiguration(): void
+    {
+        $builder = $this->getContainerBuilder();
+        /** @var stdClass $config */
+        $config = $this->getConfig();
 
-		$config['profiler'] = $config['profiler'] ?? !empty($container->parameters['debugMode']);
+        $builder->addDefinition($this->prefix('config'))
+            ->setFactory(Config::class, [$config->applicationId, $config->testMode, $config->cache, $config->compression]);
 
-		$container->addDefinition($this->prefix('config'))
-			->setFactory(Config::class, [$config['applicationId'], $config['testMode'], $config['cache'], $config['compression']]);
+        // the library accepts one dispatcher per factory, so it gets ours and listeners subscribe to it
+        $dispatcher = $builder->addDefinition($this->prefix('eventDispatcher'))
+            ->setFactory(EventDispatcher::class);
 
-		$container->addDefinition($this->prefix('webServiceFactory'))
-			->setType(WebServiceFactory::class);
+        $factory = $builder->addDefinition($this->prefix('webServiceFactory'))
+            ->setType(WebServiceFactoryInterface::class);
+        if ($config->fixtures !== null) {
+            $factory->setFactory(FixtureWebServiceFactory::class, [$config->fixtures]);
+        } else {
+            $factory->setFactory(WebServiceFactory::class, [WebService::class, $this->prefix('@eventDispatcher')]);
+        }
 
-		$manager = $container->addDefinition($this->prefix('wsdlManager'))
-			->setType(WsdlManager::class);
+        $builder->addDefinition($this->prefix('wsdlManager'))
+            ->setFactory(WsdlManager::class);
 
-		$container->addDefinition($this->prefix('session'))
-			->setType(SessionAdapter::class);
+        $builder->addDefinition($this->prefix('session'))
+            ->setFactory(SessionAdapter::class);
 
-		$container->addDefinition($this->prefix('user'))
-			->setType(User::class);
+        $builder->addDefinition($this->prefix('user'))
+            ->setFactory(User::class);
 
-		$container->addDefinition($this->prefix('skautis'))
-			->setType(Skautis::class);
+        $builder->addDefinition($this->prefix('skautis'))
+            ->setFactory(Skautis::class);
 
-		if ($config['profiler'] && class_exists(Debugger::class)) {
-			$panel = $container->addDefinition($this->prefix('panel'))
-				->setType(Panel::class);
-			$manager->addSetup([$panel, 'register'], [$manager]);
-		}
-	}
+        $profiler = $config->profiler ?? ($builder->parameters['debugMode'] ?? false) === true;
+        if ($profiler && class_exists(Bar::class)) {
+            $builder->addDefinition($this->prefix('queryLog'))
+                ->setFactory(QueryLog::class)
+                ->setAutowired(false);
+            $builder->addDefinition($this->prefix('panel'))
+                ->setFactory(Panel::class, [$this->prefix('@queryLog')])
+                ->setAutowired(false);
+            $dispatcher->addSetup('addListener', [$this->prefix('@queryLog')]);
+        }
+    }
 
+    public function afterCompile(ClassType $class): void
+    {
+        $builder = $this->getContainerBuilder();
+        if (! $builder->hasDefinition($this->prefix('panel'))) {
+            return;
+        }
+
+        // Tracy registered through its Nette extension (nette/bootstrap does that itself), or used standalone
+        $bar = $builder->getByType(Bar::class);
+        if ($bar !== null) {
+            $this->initialization->addBody('$this->getService(?)->addPanel($this->getService(?));', [$bar, $this->prefix('panel')]);
+        } else {
+            $this->initialization->addBody('Tracy\Debugger::getBar()->addPanel($this->getService(?));', [$this->prefix('panel')]);
+        }
+    }
 }

@@ -1,5 +1,2 @@
 extensions:
-	skautis: Skautis\Nette\SkautisExtension
-
-skautis:
-	applicationId: test
+    skautis: Skaut\SkautisNette\SkautisExtension

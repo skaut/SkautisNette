@@ -1,0 +1,5 @@
+[
+  {"ID": 10, "ID_Role": 26, "Role": "Vedoucí oddílu", "Key": "vedouciOddil", "ID_Unit": 1003, "Unit": "3. oddíl Vlčata", "RegistrationNumber": "622.01.003", "DisplayName": "Vedoucí oddílu: 3. oddíl Vlčata", "IsActive": true, "CanEdit": true},
+  {"ID": 11, "ID_Role": 25, "Role": "Vedoucí střediska", "Key": "vedouciStredisko", "ID_Unit": 1002, "Unit": "Středisko Sluneční hodiny", "RegistrationNumber": "622.01", "DisplayName": "Vedoucí střediska: Středisko Sluneční hodiny", "IsActive": true, "CanEdit": true},
+  {"ID": 12, "ID_Role": 40, "Role": "Činovník střediska", "Key": "cinovnikStredisko", "ID_Unit": 1002, "Unit": "Středisko Sluneční hodiny", "RegistrationNumber": "622.01", "DisplayName": "Činovník: Středisko Sluneční hodiny", "IsActive": true, "CanEdit": false}
+]

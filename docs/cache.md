@@ -1,24 +1,37 @@
 # Cachování požadavků pomocí `nette/caching`
 
-Pro cachování požadavků na SkautIS je možné použít libovolné uložiště z balíčku `nette/caching`.
+Knihovna nabízí dekorátor `Skaut\Skautis\Wsdl\Decorator\Cache\CacheDecorator`, který ukládá odpovědi do libovolné
+[PSR-16](https://www.php-fig.org/psr/psr-16/) cache. `Skaut\SkautisNette\Cache\CacheAdapter` je PSR-16 adaptér nad
+`Nette\Caching\Cache`, takže je možné použít kterékoli úložiště z balíčku `nette/caching` (3.3 a novější).
 
 ## Příklad
 
 ```php
-// Získáme webovou službu ze skautisu
+use Nette\Caching\Cache;
+use Nette\Caching\Storages\FileStorage;
+use Skaut\Skautis\Wsdl\Decorator\Cache\CacheDecorator;
+use Skaut\SkautisNette\Cache\CacheAdapter;
+
+// webová služba ze skautisu
 $webService = $skautis->User;
 
-$storage = new MemoryStorage();
-$netteCache = new Cache($storage, 'namespace-skautis');
+// cache nad zvoleným úložištěm
+$netteCache = new Cache(new FileStorage(__DIR__.'/../temp/cache'), 'skautis');
+$cache = new CacheAdapter($netteCache);
 
-// Vytvoříme cache používající zvoleného uložiště
-// S platností cachovaných dat 1 den
-$ttl = 60*60*24; 
-$cache = new CacheAdapter($netteCache, $ttl);
+// cachovaná webová služba s platností odpovědí 1 den
+$ttl = 60 * 60 * 24;
+$cachedWebService = new CacheDecorator($webService, $cache, $ttl);
 
-// Vytvoříme cachovanou webovou službu
-$cachedWebService = new CacheDecorator($webService, $cache);
-
-// Nyní můžeme použít cachovanou webovou službu jako klasickou webovou službu
-$cachedWebService->call('UserDetail', ['ID' => 1940]);
+// používá se stejně jako necachovaná služba
+$cachedWebService->call('UserDetail', [['ID' => 1940]]);
 ```
+
+## Chování adaptéru
+
+- Klíče musí být neprázdné řetězce bez znaků `{}()/\@:` (PSR-16); jinak `Skaut\SkautisNette\Cache\InvalidKeyException`.
+- TTL je `int` v sekundách, `DateInterval` nebo `null`. Nulové a záporné TTL položku smaže. Druhý argument
+  konstruktoru (`?int $defaultTtl`) je TTL pro volání `set()` bez TTL; `null` nechá platnost na úložišti.
+- Nette neumí uložit `null`, proto `has()` vrací `false` a `get()` výchozí hodnotu i pro uložené `null`.
+- Selhání úložiště při zápisu vrátí `false` z `set()`, `delete()` a `clear()`; selhání při čtení vyhodí
+  `Skaut\SkautisNette\Cache\CacheException`.

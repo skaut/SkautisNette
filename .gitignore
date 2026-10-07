@@ -1,3 +1,5 @@
-vendor
-composer.lock
-composer.phar
+/vendor/
+/composer.lock
+/composer.phar
+/make.local
+/.idea/

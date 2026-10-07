@@ -2,26 +2,23 @@
 
 declare(strict_types=1);
 
+use Nette\Http\Request;
+use Nette\Http\Response;
+use Nette\Http\Session;
+use Nette\Http\UrlScript;
+use Skaut\SkautisNette\SessionAdapter;
 use Tester\Assert;
-use Nette\Http;
-use Skautis\Nette\SessionAdapter;
 
+require __DIR__.'/../bootstrap.php';
 
-require __DIR__ . '/../bootstrap.php';
-
-
-$httpRequest = new Http\Request(new Http\UrlScript);
-$httpResponse = new Http\Response();
-$session = new Http\Session($httpRequest, $httpResponse);
+$session = new Session(new Request(new UrlScript('http://localhost/')), new Response());
 $adapter = new SessionAdapter($session);
 
-$name = "asd";
-$data = new \StdClass();
-$data->data['user_id'] = 123;
-$data->data['token'] = 'asdqwe';
+Assert::false($adapter->has('login'));
+Assert::null($adapter->get('login'));
 
-Assert::false($adapter->has($name));
+$adapter->set('login', ['ID_Login' => 'token']);
 
-$adapter->set($name, $data);
-Assert::true($adapter->has($name));
-Assert::equal($data, $adapter->get($name));
+Assert::true($adapter->has('login'));
+Assert::same(['ID_Login' => 'token'], $adapter->get('login'));
+Assert::same(['ID_Login' => 'token'], (new SessionAdapter($session))->get('login'), 'another adapter over the same session sees the value');

@@ -1,0 +1,1 @@
+[{"ID": 5001, "ID_Person": 106, "Person": "Novák Tomáš", "FirstName": "Tomáš", "LastName": "Novák", "Birthday": "2012-04-01T00:00:00", "Sex": "Muž", "ID_Sex": "male", "Phone": "+420 777 000 106", "Email": "jan.novak@example.cz", "CanEdit": true, "ShowLinkToDetail": true}]

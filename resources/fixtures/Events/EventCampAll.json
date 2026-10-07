@@ -1,0 +1,5 @@
+[
+  {"ID": 5001, "DisplayName": "Letní tábor Vlčat", "ID_Unit": 1003, "Unit": "3. oddíl Vlčata", "RegistrationNumber": "622.01.003", "StartDate": "2027-07-03T00:00:00", "EndDate": "2027-07-17T00:00:00", "Location": "Tábořiště U Tří dubů", "ID_EventCampState": "draft", "EventCampState": "Rozpracovaný"},
+  {"ID": 5002, "DisplayName": "Střediskový tábor", "ID_Unit": 1002, "Unit": "Středisko Sluneční hodiny", "RegistrationNumber": "622.01", "StartDate": "2027-08-01T00:00:00", "EndDate": "2027-08-14T00:00:00", "Location": "Louka pod Kletí", "ID_EventCampState": "approvedParent", "EventCampState": "Schválený nadřízenou jednotkou"},
+  {"ID": 5003, "DisplayName": "Tábor cizí jednotky", "ID_Unit": 9999, "Unit": "Jiné středisko", "RegistrationNumber": "999.01", "StartDate": "2027-07-10T00:00:00", "EndDate": "2027-07-20T00:00:00", "Location": "Někde", "ID_EventCampState": "draft", "EventCampState": "Rozpracovaný"}
+]

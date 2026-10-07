@@ -1,7 +1,5 @@
 parameters:
-  level: max
-  paths:
-    - src
-
-includes:
-  - phpstan-baseline.neon
+    level: max
+    paths:
+        - src
+    treatPhpDocTypesAsCertain: false
