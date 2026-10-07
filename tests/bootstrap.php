@@ -1,26 +1,34 @@
 <?php
 
-// The Nette Tester command-line runner can be
-// invoked through the command: ../vendor/bin/tester .
+declare(strict_types=1);
 
-if (@!include __DIR__ . '/../vendor/autoload.php') {
-	echo 'Install Nette Tester using `composer update --dev`';
-	exit(1);
+// Run with: vendor/bin/tester tests -s -C
+
+if (@! include __DIR__.'/../vendor/autoload.php') {
+    echo 'Install dependencies using `composer install`';
+    exit(1);
 }
 
-
-// configure environment
 Tester\Environment::setup();
+Tester\Environment::setupFunctions();
 date_default_timezone_set('Europe/Prague');
 
-
-// create temporary directory
-define('TEMP_DIR', __DIR__ . '/tmp/' . getmypid());
+define('TEMP_DIR', __DIR__.'/tmp/'.getmypid());
 @mkdir(dirname(TEMP_DIR)); // @ - directory may already exist
 Tester\Helpers::purge(TEMP_DIR);
 
-
-function test(\Closure $function)
+/**
+ * Builds a Nette container with the extension registered under the name `skautis`.
+ *
+ * @param array<string, mixed> $skautis the whole `skautis:` configuration section
+ */
+function createContainer(array $skautis, bool $debugMode): Nette\DI\Container
 {
-	$function();
+    $configurator = new Nette\Bootstrap\Configurator();
+    $configurator->setTempDirectory(TEMP_DIR);
+    $configurator->setDebugMode($debugMode);
+    $configurator->addConfig(__DIR__.'/SkautisNette/files/config.neon');
+    $configurator->addConfig(['skautis' => $skautis]);
+
+    return $configurator->createContainer();
 }

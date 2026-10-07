@@ -2,15 +2,8 @@
 
 declare(strict_types=1);
 
-namespace Skautis\Nette\Cache;
+namespace Skaut\SkautisNette\Cache;
 
-use Psr\SimpleCache\InvalidArgumentException;
-
-class InvalidTTLException
-  extends
-  \RuntimeException
-  implements
-  InvalidArgumentException
+class InvalidTTLException extends InvalidArgumentException
 {
-
 }

@@ -2,26 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Skautis\Nette\Cache;
+namespace Skaut\SkautisNette\Cache;
 
-use Psr\SimpleCache\InvalidArgumentException;
-
-class InvalidKeyException
-  extends
-  \RuntimeException
-  implements
-  InvalidArgumentException
+/**
+ * The key is not a valid PSR-16 cache key.
+ */
+class InvalidKeyException extends InvalidArgumentException
 {
-
-
-  /**
-   * @param string $validationError
-   * @param mixed $key
-   */
-  public function __construct(
-    string $validationError,
-    $key
-  ) {
-    parent::__construct("$validationError Found: \"$key\"");
-  }
 }
